@@ -22,11 +22,11 @@ class BackendG17ApplicationTests {
 	void contextLoads() {
 	}
 
-//	@Test
-//	public void testCreateArticle() {
-//		Article article = new Article(3L,"Article 3", "Article 3 Description", 10000L, true, 500.500f, new Date());
-//		articleRepository.save(article);
-//	}
+	@Test
+	public void testCreateArticle() {
+		Article article = new Article("Article 4", "Article 4 Description", 10000L, true, 500.500f, new Date());
+		articleRepository.save(article);
+	}
 
 	@Test
 	public void findArticle() {
@@ -38,7 +38,7 @@ class BackendG17ApplicationTests {
 	public void testUpdateArticle()
 	{
 		Categorie cat = categorieRepository.findById(2L).get();
-		Article article = articleRepository.findById(2L).get();
+		Article article = articleRepository.findById(4L).get();
 		article.setCategorie(cat);
 		articleRepository.save(article);
 		System.out.println(article);
@@ -55,6 +55,47 @@ class BackendG17ApplicationTests {
 	@Test
 	public void testDeleteArticle(){
 		articleRepository.deleteById(3L);
+	}
+
+	@Test public void testfindByNomPrix()
+	{
+		List<Article> arts = articleRepository.findByNomPrix("Article 1", 500.5);
+		for (Article a : arts)
+		{
+			System.out.println(a);
+		}
+	}
+
+	@Test
+	public void testfindByCategorie()
+	{
+		Categorie cat = new Categorie();
+		cat.setIdCat(2L);
+		List<Article> arts = articleRepository.findByCategorie(cat);
+		for (Article a : arts)
+		{
+			System.out.println(a.getNomArticle());
+		}
+	}
+
+	@Test
+	public void findByCategorieIdCat()
+	{
+		List<Article> arts = articleRepository.findByCategorieIdCat(1L);
+		for (Article a : arts)
+		{
+			System.out.println(a.getNomArticle());
+		}
+	}
+
+	@Test
+	public void testTrierProduitsNomsPrix()
+	{
+		List<Article> arts = articleRepository.trierArticlesNomsPrix();
+		for (Article a : arts)
+		{
+			System.out.println(a.getNomArticle());
+		}
 	}
 
 //	@Test

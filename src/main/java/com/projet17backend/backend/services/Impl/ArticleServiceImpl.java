@@ -1,6 +1,7 @@
 package com.projet17backend.backend.services.Impl;
 
 import com.projet17backend.backend.entities.Article;
+import com.projet17backend.backend.entities.Categorie;
 import com.projet17backend.backend.repos.ArticleRepository;
 import com.projet17backend.backend.services.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +40,40 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public void deleteArticleById(Long id) {
         articleRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Article> findByNomArticle(String nom) {
+        return articleRepository.findByNomArticle(nom);
+    }
+
+    @Override
+    public List<Article> findByNomArticleContains(String nom) {
+        return articleRepository.findByNomArticleContains(nom);
+    }
+
+    @Override
+    public List<Article> findByNomPrix(String nom, Double prix) {
+        return articleRepository.findByNomPrix(nom, prix);
+    }
+
+    @Override
+    public List<Article> findByCategorie(Categorie categorie) {
+        return articleRepository.findByCategorie(categorie);
+    }
+
+    @Override
+    public List<Article> findByCategorieIdCat(Long id) {
+        return articleRepository.findByCategorieIdCat(id);
+    }
+
+    @Override
+    public List<Article> findByOrderByNomArticleAsc() {
+        return articleRepository.findByOrderByNomArticleAsc();
+    }
+
+    @Override
+    public List<Article> trierArticlesNomsPrix() {
+        return articleRepository.trierArticlesNomsPrix();
     }
 }
