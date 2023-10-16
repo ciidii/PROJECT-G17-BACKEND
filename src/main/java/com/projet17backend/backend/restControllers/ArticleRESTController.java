@@ -39,4 +39,9 @@ public class ArticleRESTController {
     public void deleteArticle(@PathVariable("id") Long id){
         articleService.deleteArticleById(id);
     }
+
+    @RequestMapping(value ="/articles/{idCat}", method = RequestMethod.GET)
+    public List<Article> getArticleList(@PathVariable("idCat") Long id){
+        return articleService.findByCategorieIdCat(id);
+    }
 }

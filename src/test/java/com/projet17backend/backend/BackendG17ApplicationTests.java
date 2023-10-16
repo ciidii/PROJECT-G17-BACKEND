@@ -38,7 +38,7 @@ class BackendG17ApplicationTests {
 	public void testUpdateArticle()
 	{
 		Categorie cat = categorieRepository.findById(2L).get();
-		Article article = articleRepository.findById(4L).get();
+		Article article = articleRepository.findById(5L).get();
 		article.setCategorie(cat);
 		articleRepository.save(article);
 		System.out.println(article);
