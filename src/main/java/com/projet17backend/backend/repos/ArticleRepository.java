@@ -4,9 +4,11 @@ import com.projet17backend.backend.entities.Article;
 import com.projet17backend.backend.entities.Categorie;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
 
+@RepositoryRestResource(path = "rest")
 public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     List<Article> findByNomArticle(String nom);
