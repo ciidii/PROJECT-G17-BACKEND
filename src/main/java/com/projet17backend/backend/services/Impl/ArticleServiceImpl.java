@@ -5,9 +5,11 @@ import com.projet17backend.backend.entities.Categorie;
 import com.projet17backend.backend.repos.ArticleRepository;
 import com.projet17backend.backend.services.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class ArticleServiceImpl implements ArticleService {
 
     @Autowired

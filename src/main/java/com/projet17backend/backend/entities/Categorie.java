@@ -20,7 +20,6 @@ public class Categorie {
     private String nomCat;
     private String descriptionCat;
 
-    @Lazy
     @JsonIgnore
     @OneToMany(mappedBy = "categorie")
     private List<Article> articles;
