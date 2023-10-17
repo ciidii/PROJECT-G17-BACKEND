@@ -26,7 +26,7 @@ public class Utilisateur {
     private String adresse;
     @Enumerated(EnumType.STRING)
     private ROLE  role;
-    private Boolean activated;
-    private boolean premierConnexion;
+    private Boolean activated=false;
+    private boolean premierConnexion=true;
 
 }
