@@ -37,12 +37,20 @@ class BackendG17ApplicationTests {
 	@Test
 	public void testUpdateArticle()
 	{
-		Categorie cat = categorieRepository.findById(2L).get();
-		Article article = articleRepository.findById(5L).get();
+		Categorie cat = categorieRepository.findById(1L).get();
+		List<Article> articles =null;
+		if (cat != null)
+		{
+			 articles = articleRepository.findByCategorieIdCat(cat.getIdCat());
+			 cat.setArticles(articles);
+		}
+		Article article = articleRepository.findById(6L).get();
 		article.setCategorie(cat);
 		articleRepository.save(article);
+		articleRepository.flush();
 		System.out.println(article);
 	}
+
 
 	@Test
 	public void testGetAllArticles(){

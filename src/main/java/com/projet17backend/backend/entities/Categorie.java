@@ -1,10 +1,12 @@
 package com.projet17backend.backend.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.projet17backend.backend.repos.ArticleRepository;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 
 import java.util.List;
@@ -21,7 +23,7 @@ public class Categorie {
     private String descriptionCat;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "categorie")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "categorie")
     private List<Article> articles;
 
     public Long getIdCat() {
@@ -49,6 +51,7 @@ public class Categorie {
     }
 
     public List<Article> getArticles() {
+        // l'ensemble des articles  associés à une catégorie
         return articles;
     }
 
@@ -62,7 +65,6 @@ public class Categorie {
                 "idCat=" + idCat +
                 ", nomCat='" + nomCat + '\'' +
                 ", descriptionCat='" + descriptionCat + '\'' +
-                ", articles=" + articles +
                 '}';
     }
 }
