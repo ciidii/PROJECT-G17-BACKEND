@@ -1,3 +1,4 @@
+/*
 package com.projet17backend.backend.controllers;
 
 import com.projet17backend.backend.entities.Article;
@@ -8,8 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
-@CrossOrigin
+//@RequestMapping("/api")
+//@CrossOrigin
 public class ArticleRESTController {
 
     @Autowired
@@ -45,3 +46,6 @@ public class ArticleRESTController {
         return articleService.findByCategorieIdCat(id);
     }
 }
+
+
+ */

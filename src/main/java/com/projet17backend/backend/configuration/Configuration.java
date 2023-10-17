@@ -9,7 +9,7 @@ public class Configuration {
 
         private static final int DEFAULT_PASSWORD_LENGTH = 8;
         public static String genereMotDePass() {
-            if (Configuration.DEFAULT_PASSWORD_LENGTH <= 8) {
+            if (Configuration.DEFAULT_PASSWORD_LENGTH < 8) {
                 throw new IllegalArgumentException("mot de passe trop court.longueur minimal 8");
             }
             SecureRandom random = new SecureRandom();
