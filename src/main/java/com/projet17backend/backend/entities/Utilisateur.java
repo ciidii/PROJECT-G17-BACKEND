@@ -1,5 +1,6 @@
 package com.projet17backend.backend.entities;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,7 +8,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Utilisateure {
+@Entity
+public class Utilisateur {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idUtilisateur;
     private String nom;
     private String prenom;
@@ -15,5 +19,10 @@ public class Utilisateure {
     private String email;
     private String identifiant;
     private String motDePasse;
+    private String adresse;
+    @Enumerated(EnumType.STRING)
+    private ROLE  role;
+    private Boolean activated;
+    private boolean premierConnexion;
 
 }
