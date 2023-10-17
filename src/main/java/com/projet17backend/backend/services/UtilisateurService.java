@@ -1,3 +1,7 @@
 package com.projet17backend.backend.services;
-public class UtilisateurService {
+
+import com.projet17backend.backend.dto.UtilisateurDTO;
+
+public interface UtilisateurService {
+    public void ajouter(UtilisateurDTO utilisateurDTO);
 }

@@ -4,7 +4,7 @@ import com.projet17backend.backend.dto.UtilisateurDTO;
 import com.projet17backend.backend.entities.Utilisateur;
 
 public class MapUtilisateur {
-    public Utilisateur mapDtoToUlisateur(UtilisateurDTO utilisateurDTO){
+    public static Utilisateur mapDtoToUlisateur(UtilisateurDTO utilisateurDTO){
         Utilisateur utilisateur = new Utilisateur();
         utilisateur.setNom(utilisateurDTO.nom());
         utilisateur.setPrenom(utilisateurDTO.prenom());
@@ -12,7 +12,6 @@ public class MapUtilisateur {
         utilisateur.setEmail(utilisateurDTO.email());
         utilisateur.setIdentifiant(utilisateurDTO.identifiant());
         utilisateur.setAdresse(utilisateurDTO.adresse());
-        utilisateur.setMotDePasse(utilisateurDTO.motDePasse());
         return utilisateur;
     }
 }
