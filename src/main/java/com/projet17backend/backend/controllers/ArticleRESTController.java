@@ -1,4 +1,4 @@
-package com.projet17backend.backend.restControllers;
+package com.projet17backend.backend.controllers;
 
 import com.projet17backend.backend.entities.Article;
 import com.projet17backend.backend.services.ArticleService;

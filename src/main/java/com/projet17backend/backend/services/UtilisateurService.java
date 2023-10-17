@@ -1,2 +1,3 @@
-package com.projet17backend.backend.service;public class UtilisateurService {
+package com.projet17backend.backend.services;
+public class UtilisateurService {
 }

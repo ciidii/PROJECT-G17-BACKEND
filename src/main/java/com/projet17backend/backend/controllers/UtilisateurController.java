@@ -1,2 +1,2 @@
-package com.projet17backend.backend.controller;public class UtilisateurController {
+package com.projet17backend.backend.controllers;public class UtilisateurController {
 }

@@ -1,2 +1,2 @@
-package com.projet17backend.backend.securite;public class SecuriteConfiguration {
+package com.projet17backend.backend.securites;public class SecuriteConfiguration {
 }
