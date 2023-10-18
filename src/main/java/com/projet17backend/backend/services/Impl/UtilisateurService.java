@@ -18,7 +18,7 @@ public class UtilisateurService implements com.projet17backend.backend.services.
         Utilisateur utilisateur = MapUtilisateur.mapDtoToUlisateur(utilisateurDTO);
         if (!utilisateur.getEmail().contains("@")) throw new RuntimeException("email invalide");
         if (!utilisateur.getEmail().contains(".")) throw new RuntimeException("email invalide");
-        if (utilisateurRepository.findByEmail(utilisateur.getEmail()).isPresent())throw new RuntimeException("email invalide");
+        if (utilisateurRepository.findByEmail(utilisateur.getEmail()).isPresent())throw new RuntimeException("email existe déja");
         String genIdentifiant = Configuration.genereIdentifiant();
         while (utilisateurRepository.findByIdentifiant(genIdentifiant).isPresent()){
             genIdentifiant = Configuration.genereIdentifiant();
@@ -29,7 +29,6 @@ public class UtilisateurService implements com.projet17backend.backend.services.
             utilisateur.setRole(ROLE.ROLE_ADMIN);
         }else if (utilisateurDTO.role().equals(ROLE.ROLE_FINANCIER)){
             utilisateur.setRole(ROLE.ROLE_FINANCIER);
-
         }
         utilisateur.setIdentifiant(genIdentifiant);
         utilisateur.setMotDePasse(Configuration.genereMotDePass());
