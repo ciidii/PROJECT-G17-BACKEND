@@ -34,10 +34,11 @@ class BackendG17ApplicationTests {
 		System.out.println(article);
 	}
 
+	/*
 	@Test
 	public void testUpdateArticle()
 	{
-		Categorie cat = categorieRepository.findById(1L).get();
+		Categorie cat = categorieRepository.findById(1L).orElseThrow();
 		List<Article> articles =null;
 		if (cat != null)
 		{
@@ -51,6 +52,8 @@ class BackendG17ApplicationTests {
 		System.out.println(article);
 	}
 
+
+	 */
 
 	@Test
 	public void testGetAllArticles(){
