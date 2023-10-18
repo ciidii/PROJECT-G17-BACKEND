@@ -50,13 +50,23 @@ public class UtilisateurService implements com.projet17backend.backend.services.
                                 utilisateur.getNumeroTel(),
                                 utilisateur.getEmail(),
                                 utilisateur.getIdentifiant(),
-                                null,
+                                null    ,
                                 utilisateur.getAdresse(),
                                 utilisateur.getRole(),
                                 utilisateur.isPremierConnexion(),
                                 utilisateur.getActivated()
                         )
                 ).toList();
+    }
+
+    @Override
+    public UtilisateurDTO utilisateur(Long id) {
+        if (utilisateurRepository.findByIdUtilisateur(id).isEmpty())
+            throw  new RuntimeException("Utilisateur n'existe pas");
+        else
+        {
+            return MapUtilisateur.mapUtilisateurToDto(utilisateurRepository.findByIdUtilisateur(id).get());
+        }
     }
 
 }

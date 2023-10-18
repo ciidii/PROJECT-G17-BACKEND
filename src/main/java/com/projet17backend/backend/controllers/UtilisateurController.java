@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE,path = "utilisateur")
+@RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE,path = "utilisateurs")
 @AllArgsConstructor
 @Validated
 public class UtilisateurController {
@@ -24,5 +24,9 @@ public class UtilisateurController {
     @GetMapping
     public List<UtilisateurDTO> utilisateurs(){
         return this.utilisateurService.utilisateurs();
+    }
+    @GetMapping(path = "{id}")
+    public UtilisateurDTO utilisateur(@PathVariable Long id){
+        return this.utilisateurService.utilisateur(id);
     }
 }

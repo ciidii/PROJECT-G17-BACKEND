@@ -10,4 +10,5 @@ import java.util.List;
 public interface UtilisateurService {
     public void ajouter(UtilisateurDTO utilisateurDTO);
     public List<UtilisateurDTO> utilisateurs();
+    public UtilisateurDTO utilisateur(Long id);
 }

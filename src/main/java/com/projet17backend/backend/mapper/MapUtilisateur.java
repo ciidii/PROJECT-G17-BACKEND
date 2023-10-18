@@ -14,18 +14,22 @@ public class MapUtilisateur {
         utilisateur.setAdresse(utilisateurDTO.getAdresse());
         return utilisateur;
     }
-    /*
+
     public static UtilisateurDTO mapUtilisateurToDto(Utilisateur utilisateur) {
         UtilisateurDTO utilisateurDTO = new UtilisateurDTO();
-        utilisateurDTO.nom(utilisateur.getNom());
+        utilisateurDTO.setIdUtilisateur(utilisateur.getIdUtilisateur());
+        utilisateurDTO.setNom(utilisateur.getNom());
         utilisateurDTO.setPrenom(utilisateur.getPrenom());
+        utilisateur.setMotDePasse(null);
         utilisateurDTO.setNumeroTel(utilisateur.getNumeroTel());
         utilisateurDTO.setEmail(utilisateur.getEmail());
         utilisateurDTO.setIdentifiant(utilisateur.getIdentifiant());
         utilisateurDTO.setAdresse(utilisateur.getAdresse());
+        utilisateurDTO.setActivated(utilisateur.getActivated());
+        utilisateurDTO.setPremierConnexion(utilisateur.isPremierConnexion());
         return utilisateurDTO;
     }
 
-     */
+
 
 }
