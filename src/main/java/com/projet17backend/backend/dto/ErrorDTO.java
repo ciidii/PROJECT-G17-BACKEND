@@ -1,6 +1,5 @@
 package com.projet17backend.backend.dto;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public record ErrorDTO (

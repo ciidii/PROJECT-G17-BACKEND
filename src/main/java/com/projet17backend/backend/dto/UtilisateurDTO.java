@@ -6,26 +6,31 @@ import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-public record UtilisateurDTO(
-        Long idUtilisateur,
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class UtilisateurDTO {
+        private Long idUtilisateur;
         @NotNull(message = "Nom est Obligatoire")
-        String nom,
+        private String nom;
         @NotNull(message = "Prenom est Obligatoire")
-        String prenom,
+        private String prenom;
         @NotNull
-        String numeroTel,
+        private String numeroTel;
         @Email(message = "Email invalide")
         @NotNull(message = "Email est Obligatoire")
-        String email,
-        String identifiant,
-        String motDePasse,
+        private String email;
+        private String identifiant;
+        private String motDePasse;
         @NotNull(message = "l'adresse est Obligatoire")
-        String adresse,
+        private String adresse;
         @NotNull(message = "Preciser le rôle")
         @Enumerated(EnumType.STRING)
-        ROLE role,
-        boolean activated,
-        boolean premierConnexion
-) {
+        private  ROLE role;
+        private boolean activated;
+        private  boolean premierConnexion;
 }

@@ -7,7 +7,10 @@ import com.projet17backend.backend.entities.Utilisateur;
 import com.projet17backend.backend.mapper.MapUtilisateur;
 import com.projet17backend.backend.repos.UtilisateurRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -23,16 +26,37 @@ public class UtilisateurService implements com.projet17backend.backend.services.
         while (utilisateurRepository.findByIdentifiant(genIdentifiant).isPresent()){
             genIdentifiant = Configuration.genereIdentifiant();
         }
-        if (utilisateurDTO.role().equals(ROLE.ROLE_UTILISATEUR)){
+        if (utilisateurDTO.getRole().equals(ROLE.ROLE_UTILISATEUR)){
             utilisateur.setRole(ROLE.ROLE_UTILISATEUR);
-        }else if (utilisateurDTO.role().equals(ROLE.ROLE_ADMIN)){
+        }else if (utilisateurDTO.getRole().equals(ROLE.ROLE_ADMIN)){
             utilisateur.setRole(ROLE.ROLE_ADMIN);
-        }else if (utilisateurDTO.role().equals(ROLE.ROLE_FINANCIER)){
+            }else if (utilisateurDTO.getRole().equals(ROLE.ROLE_FINANCIER)){
             utilisateur.setRole(ROLE.ROLE_FINANCIER);
         }
         utilisateur.setIdentifiant(genIdentifiant);
         utilisateur.setMotDePasse(Configuration.genereMotDePass());
         utilisateurRepository.save(utilisateur);
+    }
+
+    @Override
+    public List<UtilisateurDTO> utilisateurs() {
+        List<Utilisateur> utilisateurs =utilisateurRepository.findAll(Sort.by("idUtilisateur"));
+        return utilisateurs.stream()
+                .map(utilisateur ->
+                        new UtilisateurDTO(
+                                utilisateur.getIdUtilisateur(),
+                                utilisateur.getNom(),
+                                utilisateur.getPrenom(),
+                                utilisateur.getNumeroTel(),
+                                utilisateur.getEmail(),
+                                utilisateur.getIdentifiant(),
+                                null,
+                                utilisateur.getAdresse(),
+                                utilisateur.getRole(),
+                                utilisateur.isPremierConnexion(),
+                                utilisateur.getActivated()
+                        )
+                ).toList();
     }
 
 }
