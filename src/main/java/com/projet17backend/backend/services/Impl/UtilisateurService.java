@@ -13,7 +13,11 @@ import java.util.List;
 
 @Service
 public class UtilisateurService implements com.projet17backend.backend.services.UtilisateurService {
-    private UtilisateurRepository utilisateurRepository;
+    private final UtilisateurRepository utilisateurRepository;
+    public UtilisateurService(UtilisateurRepository utilisateurRepository) {
+        this.utilisateurRepository = utilisateurRepository;
+    }
+
     @Override
     public void ajouter(UtilisateurDTO utilisateurDTO) {
         Utilisateur utilisateur = MapUtilisateur.mapDtoToUlisateur(utilisateurDTO);
@@ -40,7 +44,8 @@ public class UtilisateurService implements com.projet17backend.backend.services.
     public List<UtilisateurDTO> utilisateurs() {
         List<Utilisateur> utilisateurs =utilisateurRepository.findAll(Sort.by("idUtilisateur"));
         return utilisateurs.stream()
-                .map(utilisateur ->
+                .map(
+                        utilisateur ->
                         new UtilisateurDTO(
                                 utilisateur.getIdUtilisateur(),
                                 utilisateur.getNom(),
