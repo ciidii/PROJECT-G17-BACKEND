@@ -2,9 +2,11 @@ package com.projet17backend.backend.mapper;
 
 import com.projet17backend.backend.dto.UtilisateurDTO;
 import com.projet17backend.backend.entities.Utilisateur;
+import org.springframework.stereotype.Component;
 
+@Component
 public class MapUtilisateur {
-    public static Utilisateur mapDtoToUlisateur(UtilisateurDTO utilisateurDTO){
+    public  Utilisateur mapDtoToUlisateur(UtilisateurDTO utilisateurDTO){
         Utilisateur utilisateur = new Utilisateur();
         utilisateur.setNom(utilisateurDTO.getNom());
         utilisateur.setPrenom(utilisateurDTO.getPrenom());
@@ -15,7 +17,7 @@ public class MapUtilisateur {
         return utilisateur;
     }
 
-    public static UtilisateurDTO mapUtilisateurToDto(Utilisateur utilisateur) {
+    public  UtilisateurDTO mapUtilisateurToDto(Utilisateur utilisateur) {
         UtilisateurDTO utilisateurDTO = new UtilisateurDTO();
         utilisateurDTO.setIdUtilisateur(utilisateur.getIdUtilisateur());
         utilisateurDTO.setNom(utilisateur.getNom());

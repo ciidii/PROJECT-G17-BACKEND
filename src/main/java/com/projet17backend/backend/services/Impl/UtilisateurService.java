@@ -14,13 +14,15 @@ import java.util.List;
 @Service
 public class UtilisateurService implements com.projet17backend.backend.services.UtilisateurService {
     private final UtilisateurRepository utilisateurRepository;
-    public UtilisateurService(UtilisateurRepository utilisateurRepository) {
+    private final MapUtilisateur mapUtilisateur;
+    public UtilisateurService(UtilisateurRepository utilisateurRepository,MapUtilisateur mapUtilisateur) {
         this.utilisateurRepository = utilisateurRepository;
+        this.mapUtilisateur  = mapUtilisateur;
     }
 
     @Override
     public void ajouter(UtilisateurDTO utilisateurDTO) {
-        Utilisateur utilisateur = MapUtilisateur.mapDtoToUlisateur(utilisateurDTO);
+        Utilisateur utilisateur = mapUtilisateur.mapDtoToUlisateur(utilisateurDTO);
         if (!utilisateur.getEmail().contains("@")) throw new RuntimeException("email invalide");
         if (!utilisateur.getEmail().contains(".")) throw new RuntimeException("email invalide");
         if (utilisateurRepository.findByEmail(utilisateur.getEmail()).isPresent())throw new RuntimeException("email existe déja");
@@ -64,11 +66,11 @@ public class UtilisateurService implements com.projet17backend.backend.services.
 
     @Override
     public UtilisateurDTO utilisateur(Long id) {
-        if (utilisateurRepository.findByIdUtilisateur(id).isEmpty())
+        if (utilisateurRepository.findByIdUtilisateur(id)==null)
             throw  new RuntimeException("Utilisateur n'existe pas");
         else
         {
-            return MapUtilisateur.mapUtilisateurToDto(utilisateurRepository.findByIdUtilisateur(id).get());
+            return mapUtilisateur.mapUtilisateurToDto(utilisateurRepository.findByIdUtilisateur(id));
         }
     }
 

@@ -61,7 +61,7 @@ class UtilisateurRepositoryTest {
         //GIVEN
 
         //WHEN
-        Utilisateur utilisateurFronDB = underTest.findByIdUtilisateur(1L).orElseThrow();
+        Utilisateur utilisateurFronDB = underTest.findByIdUtilisateur(1L);
 
         //THEN
         Assertions.assertThat(utilisateurFronDB.getIdUtilisateur()).isEqualTo(1L);

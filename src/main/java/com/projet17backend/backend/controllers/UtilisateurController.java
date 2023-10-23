@@ -15,6 +15,10 @@ import java.util.List;
 public class UtilisateurController {
     public UtilisateurService utilisateurService;
 
+    public UtilisateurController(UtilisateurService utilisateurService) {
+        this.utilisateurService = utilisateurService;
+    }
+
     @PostMapping
     public void ajouter(@Valid @RequestBody UtilisateurDTO utilisateurDTO){
             this.utilisateurService.ajouter(utilisateurDTO);
