@@ -1,13 +1,7 @@
 package com.projet17backend.backend.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.projet17backend.backend.repos.ArticleRepository;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 
 import java.util.List;
 

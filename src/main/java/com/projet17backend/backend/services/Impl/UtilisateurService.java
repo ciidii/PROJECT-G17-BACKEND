@@ -6,14 +6,12 @@ import com.projet17backend.backend.entities.ROLE;
 import com.projet17backend.backend.entities.Utilisateur;
 import com.projet17backend.backend.mapper.MapUtilisateur;
 import com.projet17backend.backend.repos.UtilisateurRepository;
-import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@AllArgsConstructor
 public class UtilisateurService implements com.projet17backend.backend.services.UtilisateurService {
     private UtilisateurRepository utilisateurRepository;
     @Override

@@ -10,8 +10,11 @@ import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 @SpringBootApplication
 public class BackendG17Application implements CommandLineRunner {
 
-	@Autowired
-	private RepositoryRestConfiguration repositoryRestConfiguration;
+	private final RepositoryRestConfiguration repositoryRestConfiguration;
+
+	public BackendG17Application(RepositoryRestConfiguration repositoryRestConfiguration) {
+		this.repositoryRestConfiguration = repositoryRestConfiguration;
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(BackendG17Application.class, args);
