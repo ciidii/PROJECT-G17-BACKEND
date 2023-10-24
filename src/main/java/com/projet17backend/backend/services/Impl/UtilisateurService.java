@@ -15,10 +15,11 @@ import java.util.List;
 public class UtilisateurService implements com.projet17backend.backend.services.UtilisateurService {
     private final UtilisateurRepository utilisateurRepository;
     private final MapUtilisateur mapUtilisateur;
-
-    public UtilisateurService(UtilisateurRepository utilisateurRepository, MapUtilisateur mapUtilisateur) {
+    private Utilisateur utilisateurFromDB;
+    public UtilisateurService(UtilisateurRepository utilisateurRepository, MapUtilisateur mapUtilisateur,Utilisateur utilisateur) {
         this.utilisateurRepository = utilisateurRepository;
         this.mapUtilisateur = mapUtilisateur;
+        utilisateurFromDB = utilisateur;
     }
 
     @Override
@@ -74,5 +75,25 @@ public class UtilisateurService implements com.projet17backend.backend.services.
             return mapUtilisateur.mapUtilisateurToDto(utilisateurRepository.findByIdUtilisateur(id));
         }
     }
+
+    @Override
+    public void modifierMesInfos(Long id, UtilisateurDTO utilisateurDTO) {
+        Utilisateur utilisateurFromDB = utilisateurRepository.findByIdUtilisateur(id);
+
+        if (utilisateurFromDB == null) {
+            throw new RuntimeException("Utilisateur n'existe pas");
+        }
+        if (!utilisateurFromDB.getIdUtilisateur().equals(id)) {
+            throw new RuntimeException("ID de l'utilisateur ne correspond pas");
+        }
+        utilisateurFromDB.setNom(utilisateurDTO.getNom());
+        utilisateurFromDB.setPrenom(utilisateurDTO.getPrenom());
+        utilisateurFromDB.setNumeroTel(utilisateurDTO.getNumeroTel());
+        utilisateurFromDB.setEmail(utilisateurDTO.getEmail());
+        utilisateurFromDB.setAdresse(utilisateurDTO.getAdresse());
+        utilisateurRepository.save(utilisateurFromDB);
+    }
+
+
 
 }

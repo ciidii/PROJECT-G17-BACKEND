@@ -1,9 +1,11 @@
 package com.projet17backend.backend.entities;
 
 import jakarta.persistence.*;
+import org.springframework.stereotype.Component;
 
 
 @Entity
+@Component
 @Table(name = "utilisateur")
 public class Utilisateur {
     @Id

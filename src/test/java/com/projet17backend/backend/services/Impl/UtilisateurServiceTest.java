@@ -23,16 +23,18 @@
     @ExtendWith(MockitoExtension.class)
     class UtilisateurServiceTest {
         @Mock
-        private UtilisateurRepository utilisateurRepository;
+        private UtilisateurRepository utilisateurRepositoryMock;
         @Mock
-        private MapUtilisateur mapUtilisateur;
+        private MapUtilisateur mapUtilisateurMock;
+        @Mock
+        private Utilisateur utilisateurMock;
         private UtilisateurService underTest;
         private Utilisateur utilisateur;
         private UtilisateurDTO utilisateurDTO;
         private List<Utilisateur> utilisateurs;
         @BeforeEach
         void setUp(){
-            underTest = new UtilisateurService(utilisateurRepository,mapUtilisateur);
+            underTest = new UtilisateurService(utilisateurRepositoryMock, mapUtilisateurMock,utilisateurMock);
             utilisateurs  = new ArrayList<>();
              utilisateur =   new Utilisateur(
                     null,
@@ -81,17 +83,17 @@
             //WHEN
             underTest.utilisateurs();
             //THEN
-            Mockito.verify(utilisateurRepository).findAll(Sort.by("idUtilisateur"));
+            Mockito.verify(utilisateurRepositoryMock).findAll(Sort.by("idUtilisateur"));
         }
 
         @Test
         void verifieLexistanceDunUtilisateurAvaecExist(){
             //GIVEN
-            Mockito.when(utilisateurRepository.findByIdUtilisateur(3L)).thenReturn(utilisateur);
-            Mockito.when(mapUtilisateur.mapUtilisateurToDto(utilisateur)).thenReturn(utilisateurDTO);
+            Mockito.when(utilisateurRepositoryMock.findByIdUtilisateur(3L)).thenReturn(utilisateur);
+            Mockito.when(mapUtilisateurMock.mapUtilisateurToDto(utilisateur)).thenReturn(utilisateurDTO);
             //THEN
             underTest.utilisateur(3L);
-            Mockito.verify(mapUtilisateur).mapUtilisateurToDto(utilisateur);
+            Mockito.verify(mapUtilisateurMock).mapUtilisateurToDto(utilisateur);
         }
         @Disabled
         @Test
@@ -103,15 +105,15 @@
             //GIVEN
 
             //WHEN
-            Mockito.when(mapUtilisateur.mapDtoToUlisateur(utilisateurDTO)).thenReturn(utilisateur);
-            Mockito.when(mapUtilisateur.mapUtilisateurToDto(utilisateur)).thenReturn(utilisateurDTO);
+            Mockito.when(mapUtilisateurMock.mapDtoToUlisateur(utilisateurDTO)).thenReturn(utilisateur);
+            Mockito.when(mapUtilisateurMock.mapUtilisateurToDto(utilisateur)).thenReturn(utilisateurDTO);
             underTest.ajouter(utilisateurDTO);
             // THEN
             ArgumentCaptor<Utilisateur> utilisateurArgumentCaptor = ArgumentCaptor.
                     forClass(Utilisateur.class);
-            Mockito.verify(utilisateurRepository).save(utilisateurArgumentCaptor.capture());
+            Mockito.verify(utilisateurRepositoryMock).save(utilisateurArgumentCaptor.capture());
             Utilisateur utilisateurCapturee =    utilisateurArgumentCaptor.getValue();
-            Assertions.assertThat(mapUtilisateur.mapUtilisateurToDto(utilisateurCapturee)).isEqualTo(utilisateurDTO);
+            Assertions.assertThat(mapUtilisateurMock.mapUtilisateurToDto(utilisateurCapturee)).isEqualTo(utilisateurDTO);
         }
         @Test
         @Disabled
@@ -131,9 +133,9 @@
                     true
             );
             //WHEN
-            Mockito.when(mapUtilisateur.mapDtoToUlisateur(utilisateurDTO)).thenReturn(utilisateur);
-            Mockito.when(mapUtilisateur.mapUtilisateurToDto(utilisateur)).thenReturn(utilisateurDTO);
-            BDDMockito.given(utilisateurRepository.findByEmail(utilisateurDTO.getEmail()).isPresent()).willReturn(true);
+            Mockito.when(mapUtilisateurMock.mapDtoToUlisateur(utilisateurDTO)).thenReturn(utilisateur);
+            Mockito.when(mapUtilisateurMock.mapUtilisateurToDto(utilisateur)).thenReturn(utilisateurDTO);
+            BDDMockito.given(utilisateurRepositoryMock.findByEmail(utilisateurDTO.getEmail()).isPresent()).willReturn(true);
             underTest.ajouter(utilisateurDTO1);
             // THEN
         }
@@ -141,18 +143,18 @@
         void doitAfficherLaListeDesUtilisateur(){
             //GIVEN
             //WHEN
-            BDDMockito.given(utilisateurRepository.findAll(Sort.by("idUtilisateur"))).willReturn(utilisateurs);
+            BDDMockito.given(utilisateurRepositoryMock.findAll(Sort.by("idUtilisateur"))).willReturn(utilisateurs);
             List<UtilisateurDTO> utilisateursRetouner =  underTest.utilisateurs();
             //THEN
-            Mockito.verify(utilisateurRepository).findAll(Sort.by("idUtilisateur"));
+            Mockito.verify(utilisateurRepositoryMock).findAll(Sort.by("idUtilisateur"));
             Assertions.assertThat(utilisateursRetouner.size()).isEqualTo(2);
 
         }
         @Test
         void retounUnUtilisateurSiSonExist(){
-            BDDMockito.given(utilisateurRepository.findByIdUtilisateur(3L)).willReturn(utilisateur);
+            BDDMockito.given(utilisateurRepositoryMock.findByIdUtilisateur(3L)).willReturn(utilisateur);
             underTest.utilisateur(3L);
-            Mockito.verify(utilisateurRepository,Mockito.times(2)).findByIdUtilisateur(3L);
+            Mockito.verify(utilisateurRepositoryMock,Mockito.times(2)).findByIdUtilisateur(3L);
         }
         @Test
         void lancerUnExectionSiIdUtilisateurNexistPas(){
@@ -160,5 +162,34 @@
             Assertions.assertThatThrownBy(()->underTest.utilisateur(3L)
             ).isInstanceOf(RuntimeException.class)
                     .hasMessageContaining("Utilisateur n'existe pas");
+        }
+        @Disabled
+        @Test
+        void TestSiLesInformationUtilisateurSonModifier() {
+            Utilisateur utilisateur =   new Utilisateur(
+                    null,
+                    "Diallo",
+                    "Boubacar",
+                    "782156437",
+                    "boubacarcidi77@gmail.com",
+                    "G17GB001",
+                    "passer",
+                    "Malika",
+                    ROLE.ROLE_ADMIN,
+                    false,
+                    true
+            );
+            // GIVEN
+            Long userId = 3L;
+            BDDMockito.given(utilisateurRepositoryMock.findByIdUtilisateur(userId)).willReturn(utilisateur);
+            BDDMockito.given(mapUtilisateurMock.mapDtoToUlisateur(utilisateurDTO)).willReturn(utilisateur);
+            BDDMockito.given(utilisateurMock.getIdUtilisateur()).willReturn(userId);
+
+            // WHEN
+            underTest.modifierMesInfos(userId, utilisateurDTO);
+
+            // THEN
+            // Assurez-vous que la méthode findByIdUtilisateur a été appelée avec le bon ID utilisateur
+            Mockito.verify(utilisateurRepositoryMock).findByIdUtilisateur(userId);
         }
     }
