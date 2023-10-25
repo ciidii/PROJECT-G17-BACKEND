@@ -1,6 +1,6 @@
 package com.projet17backend.backend.services.Impl;
 
-import com.projet17backend.backend.configuration.Configuration;
+import com.projet17backend.backend.util.Configuration;
 import com.projet17backend.backend.dto.UtilisateurDTO;
 import com.projet17backend.backend.entities.ROLE;
 import com.projet17backend.backend.entities.Utilisateur;
