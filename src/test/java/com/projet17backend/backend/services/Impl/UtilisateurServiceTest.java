@@ -28,13 +28,13 @@
         private MapUtilisateur mapUtilisateurMock;
         @Mock
         private Utilisateur utilisateurMock;
-        private UtilisateurService underTest;
+        private UtilisateurServiceImpl underTest;
         private Utilisateur utilisateur;
         private UtilisateurDTO utilisateurDTO;
         private List<Utilisateur> utilisateurs;
         @BeforeEach
         void setUp(){
-            underTest = new UtilisateurService(utilisateurRepositoryMock, mapUtilisateurMock,utilisateurMock);
+            underTest = new UtilisateurServiceImpl(utilisateurRepositoryMock, mapUtilisateurMock,utilisateurMock);
             utilisateurs  = new ArrayList<>();
              utilisateur =   new Utilisateur(
                     null,

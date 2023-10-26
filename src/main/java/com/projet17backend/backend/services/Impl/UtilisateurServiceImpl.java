@@ -1,6 +1,6 @@
 package com.projet17backend.backend.services.Impl;
 
-import com.projet17backend.backend.util.Configuration;
+import com.projet17backend.backend.utils.Configuration;
 import com.projet17backend.backend.dto.UtilisateurDTO;
 import com.projet17backend.backend.entities.ROLE;
 import com.projet17backend.backend.entities.Utilisateur;
@@ -12,11 +12,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UtilisateurService implements com.projet17backend.backend.services.UtilisateurService {
+public class UtilisateurServiceImpl implements com.projet17backend.backend.services.UtilisateurService {
     private final UtilisateurRepository utilisateurRepository;
     private final MapUtilisateur mapUtilisateur;
     private Utilisateur utilisateurFromDB;
-    public UtilisateurService(UtilisateurRepository utilisateurRepository, MapUtilisateur mapUtilisateur,Utilisateur utilisateur) {
+    public UtilisateurServiceImpl(UtilisateurRepository utilisateurRepository, MapUtilisateur mapUtilisateur, Utilisateur utilisateur) {
         this.utilisateurRepository = utilisateurRepository;
         this.mapUtilisateur = mapUtilisateur;
         utilisateurFromDB = utilisateur;

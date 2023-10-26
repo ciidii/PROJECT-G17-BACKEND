@@ -1,4 +1,4 @@
-package com.projet17backend.backend.util;
+package com.projet17backend.backend.utils;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
