@@ -1,5 +1,8 @@
 package com.projet17backend.backend.services.Impl;
 
+import com.projet17backend.backend.entities.Confirmation;
+import com.projet17backend.backend.repos.ConfirmationRepository;
+import com.projet17backend.backend.services.EmailService;
 import com.projet17backend.backend.utils.Configuration;
 import com.projet17backend.backend.dto.UtilisateurDTO;
 import com.projet17backend.backend.entities.ROLE;
@@ -15,11 +18,13 @@ import java.util.List;
 public class UtilisateurServiceImpl implements com.projet17backend.backend.services.UtilisateurService {
     private final UtilisateurRepository utilisateurRepository;
     private final MapUtilisateur mapUtilisateur;
-    private Utilisateur utilisateurFromDB;
-    public UtilisateurServiceImpl(UtilisateurRepository utilisateurRepository, MapUtilisateur mapUtilisateur, Utilisateur utilisateur) {
+    private  final EmailService emailService;
+    private final ConfirmationRepository confirmationRepository;
+    public UtilisateurServiceImpl(UtilisateurRepository utilisateurRepository, MapUtilisateur mapUtilisateur, EmailService emailService, ConfirmationRepository confirmationRepository) {
         this.utilisateurRepository = utilisateurRepository;
         this.mapUtilisateur = mapUtilisateur;
-        utilisateurFromDB = utilisateur;
+        this.emailService = emailService;
+        this.confirmationRepository = confirmationRepository;
     }
 
     @Override
@@ -43,6 +48,9 @@ public class UtilisateurServiceImpl implements com.projet17backend.backend.servi
         utilisateur.setIdentifiant(genIdentifiant);
         utilisateur.setMotDePasse(Configuration.genereMotDePass());
         utilisateurRepository.save(utilisateur);
+        Confirmation confirmation = new Confirmation(utilisateur);
+        emailService.sendMailMessage(utilisateur.getNom(), confirmation.getUtilisateur().getEmail(), confirmation.getToken());
+        confirmationRepository.save(confirmation);
     }
 
     @Override

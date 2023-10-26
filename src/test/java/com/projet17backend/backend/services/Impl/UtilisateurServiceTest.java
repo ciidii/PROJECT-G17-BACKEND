@@ -1,10 +1,13 @@
     package com.projet17backend.backend.services.Impl;
 
     import com.projet17backend.backend.dto.UtilisateurDTO;
+    import com.projet17backend.backend.entities.Confirmation;
     import com.projet17backend.backend.entities.ROLE;
     import com.projet17backend.backend.entities.Utilisateur;
     import com.projet17backend.backend.mapper.MapUtilisateur;
+    import com.projet17backend.backend.repos.ConfirmationRepository;
     import com.projet17backend.backend.repos.UtilisateurRepository;
+    import com.projet17backend.backend.services.EmailService;
     import org.assertj.core.api.Assertions;
     import org.junit.jupiter.api.BeforeEach;
     import org.junit.jupiter.api.Disabled;
@@ -28,13 +31,15 @@
         private MapUtilisateur mapUtilisateurMock;
         @Mock
         private Utilisateur utilisateurMock;
+        private EmailService emailService;
+        private ConfirmationRepository confirmation;
         private UtilisateurServiceImpl underTest;
         private Utilisateur utilisateur;
         private UtilisateurDTO utilisateurDTO;
         private List<Utilisateur> utilisateurs;
         @BeforeEach
         void setUp(){
-            underTest = new UtilisateurServiceImpl(utilisateurRepositoryMock, mapUtilisateurMock,utilisateurMock);
+            underTest = new UtilisateurServiceImpl(utilisateurRepositoryMock, mapUtilisateurMock, emailService,confirmation);
             utilisateurs  = new ArrayList<>();
              utilisateur =   new Utilisateur(
                     null,
