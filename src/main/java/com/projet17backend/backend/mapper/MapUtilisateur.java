@@ -22,7 +22,7 @@ public class MapUtilisateur {
         utilisateurDTO.setIdUtilisateur(utilisateur.getIdUtilisateur());
         utilisateurDTO.setNom(utilisateur.getNom());
         utilisateurDTO.setPrenom(utilisateur.getPrenom());
-        utilisateur.setMotDePasse(null);
+        utilisateurDTO.setIdUtilisateur(utilisateur.getIdUtilisateur());
         utilisateurDTO.setNumeroTel(utilisateur.getNumeroTel());
         utilisateurDTO.setEmail(utilisateur.getEmail());
         utilisateurDTO.setIdentifiant(utilisateur.getIdentifiant());

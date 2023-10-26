@@ -13,4 +13,5 @@ public interface UtilisateurRepository extends CrudRepository<Utilisateur,Long> 
     public Optional<Utilisateur> findByEmail(String email);
     public List<Utilisateur> findAll(Sort sort);
     public Utilisateur findByIdUtilisateur(Long id);
+    public Boolean existsByIdUtilisateur(Long id);
 }

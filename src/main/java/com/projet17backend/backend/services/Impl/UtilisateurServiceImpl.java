@@ -49,7 +49,7 @@ public class UtilisateurServiceImpl implements com.projet17backend.backend.servi
         utilisateur.setMotDePasse(Configuration.genereMotDePass());
         utilisateurRepository.save(utilisateur);
         Confirmation confirmation = new Confirmation(utilisateur);
-        emailService.sendMailMessage(utilisateur.getNom(), confirmation.getUtilisateur().getEmail(), confirmation.getToken());
+        emailService.sendMailMessage(utilisateur.getNom(), confirmation.getUtilisateur().getEmail(), confirmation.getToken(),confirmation.getUtilisateur().getIdUtilisateur()   );
         confirmationRepository.save(confirmation);
     }
 
@@ -102,6 +102,32 @@ public class UtilisateurServiceImpl implements com.projet17backend.backend.servi
         utilisateurRepository.save(utilisateurFromDB);
     }
 
+    @Override
+    public boolean existParIdUtilisateur(Long id) {
+        return utilisateurRepository.existsByIdUtilisateur(id);
+    }
+
+    @Override
+    public Utilisateur troverUtilisateurAvecSonId(Long id) {
+        return utilisateurRepository.findByIdUtilisateur(id);
+    }
+
+    @Override
+    public Boolean verifyToken(Long idUtilisateur, String token) {
+        if (!utilisateurRepository.existsByIdUtilisateur(idUtilisateur)){
+            throw new RuntimeException("Utilisateur introvable");
+        }
+        if (!confirmationRepository.existsByToken(token)){
+            throw new RuntimeException("Token n'exist pas");
+        }
+        Utilisateur utilisateur = utilisateurRepository.findByIdUtilisateur(idUtilisateur);
+        if (utilisateur!=null && !utilisateur.getActivated()){
+            utilisateur.setActivated(true);
+            utilisateurRepository.save(utilisateur);
+            return true;
+        }
+        return false;
+    }
 
 
 }
