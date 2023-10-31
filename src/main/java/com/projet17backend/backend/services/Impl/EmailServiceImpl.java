@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class EmailServiceImpl implements EmailService {
-    private JavaMailSender mailSender;
+    private final JavaMailSender mailSender;
     @Value("${VERIFY_EMAIL_HOST}")
     private String host;
     @Value("${EMAIL_ID}")

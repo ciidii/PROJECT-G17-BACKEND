@@ -4,7 +4,6 @@ import com.projet17backend.backend.dto.UtilisateurDTO;
 import com.projet17backend.backend.services.Impl.UtilisateurServiceImpl;
 import com.projet17backend.backend.services.UtilisateurService;
 import jakarta.validation.Valid;
-import jakarta.websocket.server.PathParam;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
@@ -27,6 +26,7 @@ public class UtilisateurController {
         this.utilisateurService.ajouter(utilisateurDTO);
     }
 
+    @GetMapping("/tous")
     public List<UtilisateurDTO> utilisateurs() {
         return this.utilisateurService.utilisateurs();
     }

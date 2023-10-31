@@ -1,13 +1,19 @@
 package com.projet17backend.backend.entities;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+
+import java.util.Collection;
+import java.util.Collections;
 
 
 @Entity
 @Component
 @Table(name = "utilisateur")
-public class Utilisateur {
+public class Utilisateur implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_utilisateur")
@@ -24,9 +30,11 @@ public class Utilisateur {
     @Enumerated(EnumType.STRING)
     private ROLE  role;
     private Boolean activated=false;
+
+    private Boolean estBloquer;
     private boolean premierConnexion=true;
 
-    public Utilisateur(Long idUtilisateur, String nom, String prenom, String numeroTel, String email, String identifiant, String motDePasse, String adresse, ROLE role, Boolean activated, boolean premierConnexion) {
+    public Utilisateur(Long idUtilisateur, String nom, String prenom, String numeroTel, String email, String identifiant, String motDePasse, String adresse, ROLE role, Boolean activated,Boolean estBloquer, boolean premierConnexion) {
         this.idUtilisateur = idUtilisateur;
         this.nom = nom;
         this.prenom = prenom;
@@ -37,6 +45,7 @@ public class Utilisateur {
         this.adresse = adresse;
         this.role = role;
         this.activated = activated;
+        this.estBloquer = estBloquer;
         this.premierConnexion = premierConnexion;
     }
 
@@ -129,5 +138,46 @@ public class Utilisateur {
 
     public void setPremierConnexion(boolean premierConnexion) {
         this.premierConnexion = premierConnexion;
+    }
+    public Boolean getEstBloquer() {
+        return estBloquer;
+    }
+
+    public void setEstBloquer(Boolean estBloquer) {
+        this.estBloquer = estBloquer;
+    }
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singletonList(new SimpleGrantedAuthority(this.role.toString()));
+    }
+
+    @Override
+    public String getPassword() {
+        return this.motDePasse;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.identifiant;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return this.estBloquer;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return this.activated;
     }
 }

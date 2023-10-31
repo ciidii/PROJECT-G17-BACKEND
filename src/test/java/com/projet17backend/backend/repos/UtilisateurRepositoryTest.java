@@ -32,6 +32,7 @@ class UtilisateurRepositoryTest {
                 "Malika",
                 ROLE.ROLE_ADMIN,
                 false,
+                false,
                 true
         );
      Utilisateur utilisateur1 = new Utilisateur(
@@ -44,6 +45,7 @@ class UtilisateurRepositoryTest {
              "passer",
              "Malika",
              ROLE.ROLE_ADMIN,
+             false,
              false,
              true
      );
