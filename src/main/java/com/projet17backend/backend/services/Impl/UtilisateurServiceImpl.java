@@ -10,22 +10,29 @@ import com.projet17backend.backend.entities.Utilisateur;
 import com.projet17backend.backend.mapper.MapUtilisateur;
 import com.projet17backend.backend.repos.UtilisateurRepository;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class UtilisateurServiceImpl implements com.projet17backend.backend.services.UtilisateurService {
-    private final UtilisateurRepository utilisateurRepository;
-    private final MapUtilisateur mapUtilisateur;
-    private  final EmailService emailService;
-    private final ConfirmationRepository confirmationRepository;
-    public UtilisateurServiceImpl(UtilisateurRepository utilisateurRepository, MapUtilisateur mapUtilisateur, EmailService emailService, ConfirmationRepository confirmationRepository) {
+    private  UtilisateurRepository utilisateurRepository;
+    private  BCryptPasswordEncoder passwordEncoder;
+    private  MapUtilisateur mapUtilisateur;
+    private   EmailService emailService;
+    private  ConfirmationRepository confirmationRepository;
+    public UtilisateurServiceImpl(UtilisateurRepository utilisateurRepository, BCryptPasswordEncoder passwordEncoder, MapUtilisateur mapUtilisateur, EmailService emailService, ConfirmationRepository confirmationRepository) {
         this.utilisateurRepository = utilisateurRepository;
+        this.passwordEncoder = passwordEncoder;
         this.mapUtilisateur = mapUtilisateur;
         this.emailService = emailService;
         this.confirmationRepository = confirmationRepository;
     }
+
 
     @Override
     public void ajouter(UtilisateurDTO utilisateurDTO) {
@@ -46,10 +53,12 @@ public class UtilisateurServiceImpl implements com.projet17backend.backend.servi
             utilisateur.setRole(ROLE.ROLE_FINANCIER);
         }
         utilisateur.setIdentifiant(genIdentifiant);
-        utilisateur.setMotDePasse(Configuration.genereMotDePass());
+        String notEncodedPassWorld = Configuration.genereMotDePass();
+        String passEncoded = this.passwordEncoder.encode(notEncodedPassWorld);
+        utilisateur.setMotDePasse(passEncoded);
         utilisateurRepository.save(utilisateur);
         Confirmation confirmation = new Confirmation(utilisateur);
-        emailService.sendMailMessage(utilisateur.getNom(), confirmation.getUtilisateur().getEmail(), confirmation.getToken(),confirmation.getUtilisateur().getIdUtilisateur()   );
+        emailService.sendMailMessage(utilisateur.getNom(),confirmation.getUtilisateur().getIdentifiant(),notEncodedPassWorld, confirmation.getUtilisateur().getEmail(), confirmation.getToken(),confirmation.getUtilisateur().getIdUtilisateur()   );
         confirmationRepository.save(confirmation);
     }
 
@@ -70,7 +79,8 @@ public class UtilisateurServiceImpl implements com.projet17backend.backend.servi
                                         utilisateur.getAdresse(),
                                         utilisateur.getRole(),
                                         utilisateur.isPremierConnexion(),
-                                        utilisateur.getActivated()
+                                        utilisateur.getActivated(),
+                                        utilisateur.getEstBloquer()
                                 )
                 ).toList();
     }
@@ -129,5 +139,8 @@ public class UtilisateurServiceImpl implements com.projet17backend.backend.servi
         return false;
     }
 
-
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+       return this.utilisateurRepository.findByIdentifiant(username).orElseThrow(()->new UsernameNotFoundException("Informations Incorrectent"));
+    }
 }

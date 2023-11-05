@@ -31,7 +31,7 @@ public class Utilisateur implements UserDetails {
     private ROLE  role;
     private Boolean activated=false;
 
-    private Boolean estBloquer;
+    private Boolean estBloquer=true;
     private boolean premierConnexion=true;
 
     public Utilisateur(Long idUtilisateur, String nom, String prenom, String numeroTel, String email, String identifiant, String motDePasse, String adresse, ROLE role, Boolean activated,Boolean estBloquer, boolean premierConnexion) {
@@ -163,7 +163,7 @@ public class Utilisateur implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
@@ -173,7 +173,7 @@ public class Utilisateur implements UserDetails {
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override

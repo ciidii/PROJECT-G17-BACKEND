@@ -1,7 +1,6 @@
     package com.projet17backend.backend.services.Impl;
 
     import com.projet17backend.backend.dto.UtilisateurDTO;
-    import com.projet17backend.backend.entities.Confirmation;
     import com.projet17backend.backend.entities.ROLE;
     import com.projet17backend.backend.entities.Utilisateur;
     import com.projet17backend.backend.mapper.MapUtilisateur;
@@ -19,6 +18,7 @@
     import org.mockito.Mockito;
     import org.mockito.junit.jupiter.MockitoExtension;
     import org.springframework.data.domain.Sort;
+    import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
     import java.util.ArrayList;
     import java.util.List;
@@ -37,9 +37,11 @@
         private Utilisateur utilisateur;
         private UtilisateurDTO utilisateurDTO;
         private List<Utilisateur> utilisateurs;
+        private BCryptPasswordEncoder passwordEncoder;
         @BeforeEach
         void setUp(){
-            underTest = new UtilisateurServiceImpl(utilisateurRepositoryMock, mapUtilisateurMock, emailService,confirmation);
+            // TODO: 01/11/2023 je l'ai commanté car j'enlever le constructeur avec arguments
+       //     underTest = new UtilisateurServiceImpl(utilisateurRepositoryMock, passwordEncoder, mapUtilisateurMock, emailService,confirmation);
             utilisateurs  = new ArrayList<>();
              utilisateur =   new Utilisateur(
                     null,
@@ -66,7 +68,8 @@
                     "Malika",
                     ROLE.ROLE_ADMIN,
                     false,
-                    true
+                    true,
+                     false
             );
              utilisateurs.add(utilisateur);
              utilisateurs.add(new Utilisateur(
@@ -138,7 +141,8 @@
                     "Malika",
                     ROLE.ROLE_ADMIN,
                     false,
-                    true
+                    true,
+                    false
             );
             //WHEN
             Mockito.when(mapUtilisateurMock.mapDtoToUlisateur(utilisateurDTO)).thenReturn(utilisateur);

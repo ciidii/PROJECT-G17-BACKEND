@@ -26,8 +26,9 @@ public class UtilisateurDTO {
         private  ROLE role;
         private boolean activated;
         private  boolean premierConnexion;
+        private boolean estBloquer;
 
-        public UtilisateurDTO(Long idUtilisateur, String nom, String prenom, String numeroTel, String email, String identifiant, String motDePasse, String adresse, ROLE role, boolean activated, boolean premierConnexion) {
+        public UtilisateurDTO(Long idUtilisateur, String nom, String prenom, String numeroTel, String email, String identifiant, String motDePasse, String adresse, ROLE role, boolean activated, boolean premierConnexion, boolean estBloquer) {
                 this.idUtilisateur = idUtilisateur;
                 this.nom = nom;
                 this.prenom = prenom;
@@ -39,6 +40,7 @@ public class UtilisateurDTO {
                 this.role = role;
                 this.activated = activated;
                 this.premierConnexion = premierConnexion;
+                this.estBloquer = estBloquer;
         }
 
         public UtilisateurDTO() {

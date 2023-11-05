@@ -20,13 +20,13 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public void sendMailMessage(String name, String to, String token,Long idUtilisateur) {
+    public void sendMailMessage(String name,String identifiant,String motDePass, String to, String token,Long idUtilisateur) {
         try{
             SimpleMailMessage message = new SimpleMailMessage();
             message.setSubject("Activation de votre compte");
             message.setTo(to);
             message.setFrom(expediteur);
-            message.setText(EmailUtils.getEmailMessage(name,host,token,idUtilisateur));
+            message.setText(EmailUtils.getEmailMessage(name,motDePass,identifiant,host,token, idUtilisateur));
             mailSender.send(message);
         }catch (Exception exception){
             System.out.println(exception.getMessage());
