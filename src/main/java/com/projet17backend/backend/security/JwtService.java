@@ -9,7 +9,6 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Service;
 
-import java.io.Serializable;
 import java.security.Key;
 import java.util.Date;
 import java.util.Map;
@@ -17,7 +16,7 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
-    private final String ENCRYPTION_KEY = "6cd6dd0e5e4a433c31145f38e7d5c8bc9766e0a87cb9348f31227a04ff8f8025";
+    final String ENCRYPTION_KEY = "6cd6dd0e5e4a433c31145f38e7d5c8bc9766e0a87cb9348f31227a04ff8f8025";
     private final UtilisateurService utilisateurService;
 
     public JwtService(UtilisateurService utilisateurService) {
