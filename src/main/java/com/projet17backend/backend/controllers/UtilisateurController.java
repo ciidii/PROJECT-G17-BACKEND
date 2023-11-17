@@ -2,6 +2,7 @@ package com.projet17backend.backend.controllers;
 
 import com.projet17backend.backend.dto.InfoConnexionDTO;
 import com.projet17backend.backend.dto.UtilisateurDTO;
+import com.projet17backend.backend.security.JwtService;
 import com.projet17backend.backend.services.Impl.UtilisateurServiceImpl;
 import com.projet17backend.backend.services.UtilisateurService;
 import jakarta.validation.Valid;
@@ -19,17 +20,21 @@ import java.util.Map;
 @RestController
 @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, path = "utilisateurs")
 @Validated
+@CrossOrigin(origins = "http://localhost:61277")
 public class UtilisateurController {
-    private UtilisateurService utilisateurService;
-    private AuthenticationManager authenticationManager;
-    public UtilisateurController(UtilisateurServiceImpl utilisateurService, AuthenticationManager authenticationManager) {
+    private final UtilisateurService utilisateurService;
+    private final AuthenticationManager authenticationManager;
+    private final JwtService jwtService;
+
+    public UtilisateurController(UtilisateurServiceImpl utilisateurService, AuthenticationManager authenticationManager, JwtService jwtService) {
         this.utilisateurService = utilisateurService;
         this.authenticationManager = authenticationManager;
+        this.jwtService = jwtService;
     }
 
     @PostMapping
     public void ajouter(@Valid @RequestBody UtilisateurDTO utilisateurDTO) {
-        this.utilisateurService.ajouter(utilisateurDTO);
+           this.utilisateurService.ajouter(utilisateurDTO);
     }
 
     @GetMapping("/tous")
@@ -52,11 +57,16 @@ public class UtilisateurController {
     public Boolean verify(@RequestParam("utilisateur") Long utilisateur, @RequestParam("token") String token) {
         return utilisateurService.verifyToken(utilisateur, token);
     }
-        @PostMapping(path = "connexion")
-    public Map<String,String> connexion(@RequestBody InfoConnexionDTO infoConnexionDTO){
+
+    @PostMapping(path = "connexion")
+    public Map<String, String> connexion(@RequestBody InfoConnexionDTO infoConnexionDTO) {
         Authentication authenticate = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(infoConnexionDTO.getIdentifiant(), infoConnexionDTO.getMotDePasse())
         );
+
+        if (authenticate.isAuthenticated()){
+          return   this.jwtService.generate(infoConnexionDTO.getIdentifiant());
+        }
         return null;
     }
 }

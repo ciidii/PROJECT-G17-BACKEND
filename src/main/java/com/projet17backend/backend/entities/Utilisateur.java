@@ -27,14 +27,13 @@ public class Utilisateur implements UserDetails {
     @Column(name = "not_de_passe")
     private String motDePasse;
     private String adresse;
-    @Enumerated(EnumType.STRING)
-    private ROLE  role;
-    private Boolean activated=false;
+    private String roles;
+    private Boolean activated = false;
 
-    private Boolean estBloquer=true;
-    private boolean premierConnexion=true;
+    private Boolean estBloquer = true;
+    private boolean premierConnexion = true;
 
-    public Utilisateur(Long idUtilisateur, String nom, String prenom, String numeroTel, String email, String identifiant, String motDePasse, String adresse, ROLE role, Boolean activated,Boolean estBloquer, boolean premierConnexion) {
+    public Utilisateur(Long idUtilisateur, String nom, String prenom, String numeroTel, String email, String identifiant, String motDePasse, String adresse, String roles, Boolean activated, Boolean estBloquer, boolean premierConnexion) {
         this.idUtilisateur = idUtilisateur;
         this.nom = nom;
         this.prenom = prenom;
@@ -43,7 +42,7 @@ public class Utilisateur implements UserDetails {
         this.identifiant = identifiant;
         this.motDePasse = motDePasse;
         this.adresse = adresse;
-        this.role = role;
+        this.roles = roles;
         this.activated = activated;
         this.estBloquer = estBloquer;
         this.premierConnexion = premierConnexion;
@@ -116,12 +115,12 @@ public class Utilisateur implements UserDetails {
         this.adresse = adresse;
     }
 
-    public ROLE getRole() {
-        return role;
+    public String getRoles() {
+        return roles;
     }
 
-    public void setRole(ROLE role) {
-        this.role = role;
+    public void setRoles(String roles) {
+        this.roles = roles;
     }
 
     public Boolean getActivated() {
@@ -139,6 +138,7 @@ public class Utilisateur implements UserDetails {
     public void setPremierConnexion(boolean premierConnexion) {
         this.premierConnexion = premierConnexion;
     }
+
     public Boolean getEstBloquer() {
         return estBloquer;
     }
@@ -146,9 +146,10 @@ public class Utilisateur implements UserDetails {
     public void setEstBloquer(Boolean estBloquer) {
         this.estBloquer = estBloquer;
     }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority(this.role.toString()));
+        return Collections.singletonList(new SimpleGrantedAuthority(this.roles));
     }
 
     @Override

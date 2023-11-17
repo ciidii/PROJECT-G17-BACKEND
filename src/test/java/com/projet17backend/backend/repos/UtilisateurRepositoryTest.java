@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Sort;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @SpringBootTest
@@ -30,7 +31,7 @@ class UtilisateurRepositoryTest {
                 "G17GB001",
                 "passer",
                 "Malika",
-                ROLE.ROLE_ADMIN,
+                String.valueOf(ROLE.ROLE_ADMIN),
                 false,
                 false,
                 true
@@ -44,7 +45,7 @@ class UtilisateurRepositoryTest {
              "G17GB002",
              "passer",
              "Malika",
-             ROLE.ROLE_ADMIN,
+             ROLE.ROLE_ADMIN.toString(),
              false,
              false,
              true

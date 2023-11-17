@@ -14,4 +14,5 @@ public interface UtilisateurService extends UserDetailsService {
     public boolean existParIdUtilisateur(Long id);
     public Utilisateur troverUtilisateurAvecSonId(Long id);
     public Boolean verifyToken(Long idUtilisateur,String token);
+    public Utilisateur trouverParIdentifiant(String identifiant);
 }

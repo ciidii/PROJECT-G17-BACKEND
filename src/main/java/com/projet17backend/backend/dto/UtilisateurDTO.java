@@ -1,10 +1,13 @@
 package com.projet17backend.backend.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.projet17backend.backend.entities.ROLE;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
+
+import java.util.List;
 
 public class UtilisateurDTO {
         private Long idUtilisateur;
@@ -22,13 +25,12 @@ public class UtilisateurDTO {
         @NotNull(message = "l'adresse est Obligatoire")
         private String adresse;
         @NotNull(message = "Preciser le rôle")
-        @Enumerated(EnumType.STRING)
-        private  ROLE role;
+        private List<ROLE> roles;
         private boolean activated;
         private  boolean premierConnexion;
         private boolean estBloquer;
 
-        public UtilisateurDTO(Long idUtilisateur, String nom, String prenom, String numeroTel, String email, String identifiant, String motDePasse, String adresse, ROLE role, boolean activated, boolean premierConnexion, boolean estBloquer) {
+        public UtilisateurDTO(Long idUtilisateur, String nom, String prenom, String numeroTel, String email, String identifiant, String motDePasse, String adresse, List<ROLE> roles, boolean activated, boolean premierConnexion, boolean estBloquer) {
                 this.idUtilisateur = idUtilisateur;
                 this.nom = nom;
                 this.prenom = prenom;
@@ -37,7 +39,7 @@ public class UtilisateurDTO {
                 this.identifiant = identifiant;
                 this.motDePasse = motDePasse;
                 this.adresse = adresse;
-                this.role = role;
+                this.roles = roles;
                 this.activated = activated;
                 this.premierConnexion = premierConnexion;
                 this.estBloquer = estBloquer;
@@ -110,12 +112,20 @@ public class UtilisateurDTO {
                 this.adresse = adresse;
         }
 
-        public ROLE getRole() {
-                return role;
+        public List<ROLE> getRoles() {
+                return roles;
         }
 
-        public void setRole(ROLE role) {
-                this.role = role;
+        public void setRoles(List<ROLE> roles) {
+                this.roles = roles;
+        }
+
+        public boolean isEstBloquer() {
+                return estBloquer;
+        }
+
+        public void setEstBloquer(boolean estBloquer) {
+                this.estBloquer = estBloquer;
         }
 
         public boolean isActivated() {

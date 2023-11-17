@@ -1,5 +1,8 @@
 package com.projet17backend.backend.entities;
-public enum ROLE {
+
+import java.io.Serializable;
+
+public enum ROLE implements Serializable {
     ROLE_UTILISATEUR,
     ROLE_ADMIN,
     ROLE_FINANCIER

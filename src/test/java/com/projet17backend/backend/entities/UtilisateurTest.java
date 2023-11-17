@@ -2,6 +2,9 @@ package com.projet17backend.backend.entities;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Collections;
+
 import static org.junit.Assert.assertEquals;
 
 public class UtilisateurTest {
@@ -63,8 +66,8 @@ public class UtilisateurTest {
 
     @Test
     public void testRole() {
-        utilisateur.setRole(ROLE.ROLE_ADMIN);
-        assertEquals(ROLE.ROLE_ADMIN, utilisateur.getRole());
+        utilisateur.setRoles(String.valueOf(ROLE.ROLE_ADMIN));
+        assertEquals(ROLE.ROLE_ADMIN, utilisateur.getRoles());
     }
 
     @Test
