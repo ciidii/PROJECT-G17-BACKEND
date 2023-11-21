@@ -6,6 +6,7 @@ import com.projet17backend.backend.security.JwtService;
 import com.projet17backend.backend.services.Impl.UtilisateurServiceImpl;
 import com.projet17backend.backend.services.UtilisateurService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,7 +21,8 @@ import java.util.Map;
 @RestController
 @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, path = "utilisateurs")
 @Validated
-@CrossOrigin(origins = "http://localhost:61277")
+//@EnableMethodSecurity(prePostEnabled = true)
+@CrossOrigin("http://localhost:4200")
 public class UtilisateurController {
     private final UtilisateurService utilisateurService;
     private final AuthenticationManager authenticationManager;
@@ -34,7 +36,7 @@ public class UtilisateurController {
 
     @PostMapping
     public void ajouter(@Valid @RequestBody UtilisateurDTO utilisateurDTO) {
-           this.utilisateurService.ajouter(utilisateurDTO);
+        this.utilisateurService.ajouter(utilisateurDTO);
     }
 
     @GetMapping("/tous")
@@ -61,11 +63,14 @@ public class UtilisateurController {
     @PostMapping(path = "connexion")
     public Map<String, String> connexion(@RequestBody InfoConnexionDTO infoConnexionDTO) {
         Authentication authenticate = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(infoConnexionDTO.getIdentifiant(), infoConnexionDTO.getMotDePasse())
+                new UsernamePasswordAuthenticationToken(
+                        infoConnexionDTO.getIdentifiant(),
+                        infoConnexionDTO.getMotDePasse()
+                )
         );
 
-        if (authenticate.isAuthenticated()){
-          return   this.jwtService.generate(infoConnexionDTO.getIdentifiant());
+        if (authenticate.isAuthenticated()) {
+            return this.jwtService.generate(infoConnexionDTO.getIdentifiant());
         }
         return null;
     }

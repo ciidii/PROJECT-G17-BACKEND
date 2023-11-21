@@ -22,4 +22,5 @@ public interface ArticleService {
     List<Article> findByOrderByNomArticleAsc();
     List<Article> trierArticlesNomsPrix ();
 
+    Article parametrerPrixArticle(Long articleId, Long idFancier, Float prix);
 }

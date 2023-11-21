@@ -2,18 +2,30 @@ package com.projet17backend.backend.services.Impl;
 
 import com.projet17backend.backend.entities.Article;
 import com.projet17backend.backend.entities.Categorie;
+import com.projet17backend.backend.entities.Utilisateur;
 import com.projet17backend.backend.repos.ArticleRepository;
+import com.projet17backend.backend.repos.PrixArticleRepository;
+import com.projet17backend.backend.repos.UtilisateurRepository;
 import com.projet17backend.backend.services.ArticleService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
+   private final   ArticleRepository articleRepository;
+   private final UtilisateurRepository utilisateurRepository;
+   private final ModelMapper modelMapper;
+   private final PrixArticleRepository prixArticleRepository;
+    public ArticleServiceImpl(ArticleRepository articleRepository, UtilisateurRepository utilisateurRepository, PrixArticleRepository prixArticleRepository) {
+        this.articleRepository = articleRepository;
+        this.utilisateurRepository = utilisateurRepository;
+        this.prixArticleRepository = prixArticleRepository;
+        modelMapper = new ModelMapper();
+    }
 
-    @Autowired
-    ArticleRepository articleRepository;
     @Override
     public Article saveArticle(Article article) {
         return articleRepository.save(article);
@@ -78,4 +90,19 @@ public class ArticleServiceImpl implements ArticleService {
     public List<Article> trierArticlesNomsPrix() {
         return articleRepository.trierArticlesNomsPrix();
     }
+
+    @Override
+    public Article parametrerPrixArticle(Long articleId, Long idFancier, Float prix) {
+        Article article = this.articleRepository.findById(articleId).orElseThrow();
+        Utilisateur utilisateur = utilisateurRepository.findById(idFancier).orElseThrow();
+        if (!article.isEstParametrer()){
+            article.setPrix(prix);
+            article.setEstParametrer(true);
+            article.setEstParameterPar(utilisateur);
+            this.articleRepository.save(article);
+            return article;
+        }
+        return null;
+    }
+
 }

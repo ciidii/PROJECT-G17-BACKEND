@@ -14,9 +14,8 @@ public class Categorie {
     private String descriptionCat;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "categorie")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "categorie") //Un article ne peut avoir qu'un categorie
     private List<Article> articles;
-
     public Long getIdCat() {
         return idCat;
     }

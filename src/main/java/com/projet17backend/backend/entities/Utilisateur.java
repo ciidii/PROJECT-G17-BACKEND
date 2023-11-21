@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 
 @Entity
@@ -32,7 +33,11 @@ public class Utilisateur implements UserDetails {
 
     private Boolean estBloquer = true;
     private boolean premierConnexion = true;
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Article> articles;
 
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Article> aParmetrerArticles;
     public Utilisateur(Long idUtilisateur, String nom, String prenom, String numeroTel, String email, String identifiant, String motDePasse, String adresse, String roles, Boolean activated, Boolean estBloquer, boolean premierConnexion) {
         this.idUtilisateur = idUtilisateur;
         this.nom = nom;
@@ -50,6 +55,22 @@ public class Utilisateur implements UserDetails {
 
     public Utilisateur() {
     }
+    public List<Article> getArticles() {
+        return articles;
+    }
+
+    public void setArticles(List<Article> articles) {
+        this.articles = articles;
+    }
+
+    public List<Article> getaAParmetrerArticles() {
+        return aParmetrerArticles;
+    }
+
+    public void setaAParmetrerArticles(List<Article> aParmetArticles) {
+        this.aParmetrerArticles = aParmetArticles;
+    }
+
 
     public Long getIdUtilisateur() {
         return idUtilisateur;

@@ -3,11 +3,9 @@ package com.projet17backend.backend.entities;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
-//@Data
-//@AllArgsConstructor
-//@NoArgsConstructor
 public class Article {
 
     @Id
@@ -17,23 +15,39 @@ public class Article {
     private String descriptionArticle;
     private Long qttStock;
     private boolean estVendable;
+    private boolean estParametrer=false;
     private float prix;
-    private Date dateCreation;
 
-    @ManyToOne
+    private Date dateCreation = new Date();
+
+    @ManyToOne //Plusieur categorie peut avoir la même catégorie
     private Categorie categorie;
 
-    public Article(String nomArticle, String descriptionArticle, Long qttStock, boolean estVendable, float prix, Date dateCreation) {
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Utilisateur  utilisateur;
+
+    @ManyToOne
+    private Utilisateur estParameterPar;
+
+
+    public Article(String nomArticle, String descriptionArticle, Long qttStock, boolean estVendable, boolean estParametrer, float prix, Date dateCreation) {
         this.nomArticle = nomArticle;
         this.descriptionArticle = descriptionArticle;
         this.qttStock = qttStock;
         this.estVendable = estVendable;
+        this.estParametrer = estParametrer;
         this.prix = prix;
         this.dateCreation = dateCreation;
     }
-
     public Article() {
         super();
+    }
+    public boolean isEstParametrer() {
+        return estParametrer;
+    }
+
+    public void setEstParametrer(boolean estParametrer) {
+        this.estParametrer = estParametrer;
     }
 
     public Long getArticleId() {
@@ -94,6 +108,21 @@ public class Article {
 
     public Categorie getCategorie() {
         return categorie;
+    }
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
+
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
+    }
+
+    public Utilisateur getEstParameterPar() {
+        return estParameterPar;
+    }
+
+    public void setEstParameterPar(Utilisateur estParameterPar) {
+        this.estParameterPar = estParameterPar;
     }
 
     public void setCategorie(Categorie categorie) {

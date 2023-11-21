@@ -12,7 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Sort;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @SpringBootTest
@@ -34,8 +33,7 @@ class UtilisateurRepositoryTest {
                 String.valueOf(ROLE.ROLE_ADMIN),
                 false,
                 false,
-                true
-        );
+                true);
      Utilisateur utilisateur1 = new Utilisateur(
              null,
              "Diallo",
@@ -48,8 +46,7 @@ class UtilisateurRepositoryTest {
              ROLE.ROLE_ADMIN.toString(),
              false,
              false,
-             true
-     );
+             true);
         underTest.save(utilisateur);
         underTest.save(utilisateur1);
 

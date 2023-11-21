@@ -24,7 +24,7 @@ class BackendG17ApplicationTests {
 
 	@Test
 	public void testCreateArticle() {
-		Article article = new Article("Article 4", "Article 4 Description", 10000L, true, 500.500f, new Date());
+		Article article = new Article("Article 4", "Article 4 Description", 10000L, true, false, 500.500f, new Date());
 		articleRepository.save(article);
 	}
 
@@ -33,27 +33,6 @@ class BackendG17ApplicationTests {
 		Article article = articleRepository.findById(1L).get();
 		System.out.println(article);
 	}
-
-	/*
-	@Test
-	public void testUpdateArticle()
-	{
-		Categorie cat = categorieRepository.findById(1L).orElseThrow();
-		List<Article> articles =null;
-		if (cat != null)
-		{
-			 articles = articleRepository.findByCategorieIdCat(cat.getIdCat());
-			 cat.setArticles(articles);
-		}
-		Article article = articleRepository.findById(6L).get();
-		article.setCategorie(cat);
-		articleRepository.save(article);
-		articleRepository.flush();
-		System.out.println(article);
-	}
-
-
-	 */
 
 	@Test
 	public void testGetAllArticles(){
@@ -109,9 +88,5 @@ class BackendG17ApplicationTests {
 		}
 	}
 
-//	@Test
-//	public void testCreateCategorie() {
-//		Categorie category = new Categorie(1L,"Category 1", "Category 1 Description", null);
-//	}
 
 }

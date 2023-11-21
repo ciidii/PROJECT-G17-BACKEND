@@ -57,8 +57,7 @@ class UtilisateurServiceTest {
                 ROLE.ROLE_ADMIN.toString(),
                 false,
                 false,
-                true
-        );
+                true);
         utilisateurDTO = new UtilisateurDTO(
                 null,
                 "Diallo",
@@ -86,8 +85,7 @@ class UtilisateurServiceTest {
                 ROLE.ROLE_ADMIN.toString(),
                 false,
                 false,
-                true
-        ));
+                true));
     }
 
     @Test
@@ -199,8 +197,7 @@ class UtilisateurServiceTest {
                 ROLE.ROLE_ADMIN.toString(),
                 false,
                 false,
-                true
-        );
+                true);
         // GIVEN
         Long userId = 3L;
         BDDMockito.given(utilisateurRepositoryMock.findByIdUtilisateur(userId)).willReturn(utilisateur);

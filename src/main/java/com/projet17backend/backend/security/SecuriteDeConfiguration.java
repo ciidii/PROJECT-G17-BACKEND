@@ -19,8 +19,9 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 public class SecuriteDeConfiguration {
-    private JwtFilter jwtFilter;
+    private final JwtFilter jwtFilter;
     private final BCryptPasswordEncoder passwordEncoder;
+
     public SecuriteDeConfiguration(JwtFilter jwtFilter, BCryptPasswordEncoder passwordEncoder) {
         this.jwtFilter = jwtFilter;
         this.passwordEncoder = passwordEncoder;
@@ -33,10 +34,9 @@ public class SecuriteDeConfiguration {
                         .authorizeHttpRequests(
                                 authorize -> authorize
                                         .requestMatchers(new AntPathRequestMatcher("/utilisateurs/connexion"))
-                                        .permitAll().requestMatchers(new AntPathRequestMatcher("/utilisateurs"))
                                         .permitAll()
                                         .anyRequest()
-                                        .authenticated()
+                                        .permitAll()
                         )
                         .sessionManagement(httpSecuritySessionManagementConfigurer ->
                                 httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

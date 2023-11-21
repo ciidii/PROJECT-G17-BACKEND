@@ -1,6 +1,8 @@
 package com.projet17backend.backend.entities;
 
 import jakarta.persistence.*;
+import org.hibernate.sql.results.graph.Fetch;
+import org.hibernate.validator.internal.util.stereotypes.Lazy;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
@@ -9,7 +11,7 @@ import java.util.UUID;
 @Entity
 public class Confirmation {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
     private String token;
     @Temporal(value = TemporalType.TIMESTAMP)
