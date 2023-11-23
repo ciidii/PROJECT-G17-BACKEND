@@ -23,11 +23,8 @@ public class Article {
     @ManyToOne //Plusieur categorie peut avoir la même catégorie
     private Categorie categorie;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Utilisateur  utilisateur;
-
-    @ManyToOne
-    private Utilisateur estParameterPar;
+    @OneToMany
+    private List<LogArticles> logArticles;
 
 
     public Article(String nomArticle, String descriptionArticle, Long qttStock, boolean estVendable, boolean estParametrer, float prix, Date dateCreation) {
@@ -109,22 +106,6 @@ public class Article {
     public Categorie getCategorie() {
         return categorie;
     }
-    public Utilisateur getUtilisateur() {
-        return utilisateur;
-    }
-
-    public void setUtilisateur(Utilisateur utilisateur) {
-        this.utilisateur = utilisateur;
-    }
-
-    public Utilisateur getEstParameterPar() {
-        return estParameterPar;
-    }
-
-    public void setEstParameterPar(Utilisateur estParameterPar) {
-        this.estParameterPar = estParameterPar;
-    }
-
     public void setCategorie(Categorie categorie) {
         this.categorie = categorie;
     }

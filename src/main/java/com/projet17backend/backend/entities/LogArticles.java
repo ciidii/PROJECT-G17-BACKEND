@@ -6,26 +6,36 @@ import java.util.Date;
 
 @Entity
 @Table
-public class AgentPrix {
+public class LogArticles {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne
+
+    @Enumerated(EnumType.STRING)
+    private OPERATION_ARTICLES typeOperation;
+    @ManyToOne()
+    @JoinColumn(name = "id_utilisateur")
     private Utilisateur utilisateur;
 
-    @OneToOne
+    @ManyToOne
     private Article article;
 
     private Date date = new Date();
 
-    public AgentPrix(Utilisateur utilisateur, Article article) {
+    public LogArticles(OPERATION_ARTICLES typeOperation, Utilisateur utilisateur, Article article) {
+        this.typeOperation = typeOperation;
         this.utilisateur = utilisateur;
         this.article = article;
     }
-
-    public AgentPrix() {
+    public OPERATION_ARTICLES getTypeOperation() {
+        return typeOperation;
     }
 
+    public void setTypeOperation(OPERATION_ARTICLES typeOperation) {
+        this.typeOperation = typeOperation;
+    }
+    public LogArticles() {
+    }
     public Long getId() {
         return id;
     }

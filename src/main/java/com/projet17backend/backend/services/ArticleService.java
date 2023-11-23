@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ArticleService {
 
-    Article saveArticle(Article article);
+    Article saveArticle(Article article,Long articleId);
     Article getArticle(Long id);
     List<Article> getAllArticles();
     Article updateArticle(Article article);
@@ -23,4 +23,6 @@ public interface ArticleService {
     List<Article> trierArticlesNomsPrix ();
 
     Article parametrerPrixArticle(Long articleId, Long idFancier, Float prix);
+
+    Article rendreVendable(Article article, Long idFinancier);
 }

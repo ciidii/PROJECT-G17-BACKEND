@@ -4,6 +4,7 @@ package com.projet17backend.backend.controllers;
 import com.projet17backend.backend.entities.Article;
 import com.projet17backend.backend.services.ArticleService;
 import jakarta.validation.Valid;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,9 +30,9 @@ public class ArticleRESTController {
         return articleService.getArticle(id);
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public Article createArticle(@Valid @RequestBody Article article) {
-        return articleService.saveArticle(article);
+    @RequestMapping(value = "/create/{idUtilisateur}", method = RequestMethod.POST)
+    public Article createArticle(@Valid @RequestBody Article article, @PathVariable("idUtilisateur") Long idUtilisateur) {
+        return articleService.saveArticle(article,idUtilisateur);
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
@@ -53,4 +54,5 @@ public class ArticleRESTController {
     public Article parmetrerPrixArticle(@Valid @RequestParam("articleID") Long articleID, @RequestParam("idFinancier") Long idFinancier, @RequestParam("prix") Float prix) {
         return this.articleService.parametrerPrixArticle(articleID, idFinancier, prix);
     }
+
 }
