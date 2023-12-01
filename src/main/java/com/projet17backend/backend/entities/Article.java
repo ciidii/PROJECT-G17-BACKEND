@@ -23,8 +23,9 @@ public class Article {
     @ManyToOne //Plusieur categorie peut avoir la même catégorie
     private Categorie categorie;
 
-    @OneToMany
+    @OneToMany(mappedBy = "article")
     private List<LogArticles> logArticles;
+
 
 
     public Article(String nomArticle, String descriptionArticle, Long qttStock, boolean estVendable, boolean estParametrer, float prix, Date dateCreation) {

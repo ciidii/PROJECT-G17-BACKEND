@@ -33,7 +33,7 @@ public class Utilisateur implements UserDetails {
 
     private Boolean estBloquer = true;
     private boolean premierConnexion = true;
-    @OneToMany(mappedBy = "utilisateur")
+    @OneToMany(mappedBy = "utilisateur",fetch = FetchType.LAZY)
     private List<LogArticles> logArticles;
 
     public Utilisateur(Long idUtilisateur, String nom, String prenom, String numeroTel, String email, String identifiant, String motDePasse, String adresse, String roles, Boolean activated, Boolean estBloquer, boolean premierConnexion) {
