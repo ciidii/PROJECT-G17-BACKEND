@@ -10,18 +10,20 @@
     @RequestMapping("promotion")
     public class PromoController {
         private final PromoService promoService;
-
         public PromoController(PromoService promoService) {
             this.promoService = promoService;
         }
-
         @PostMapping
         public Promo parametrer(@RequestBody Promo promo){
             return this.promoService.parametre(promo);
         }
-
         @GetMapping
         private List<Promo> promos(){
              return this.promoService.lesPromos();
+        }
+
+        @PutMapping
+        private Promo modifier(@RequestBody Promo promo){
+            return this.promoService.modifier(promo);
         }
     }

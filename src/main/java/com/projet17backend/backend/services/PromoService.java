@@ -8,6 +8,7 @@ import java.util.List;
 @Service
 public interface PromoService {
     public Promo parametre(Promo promo);
-
     List<Promo> lesPromos();
+
+    Promo modifier(Promo promo);
 }
