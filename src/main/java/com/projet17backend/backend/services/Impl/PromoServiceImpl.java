@@ -21,7 +21,8 @@ public class PromoServiceImpl implements PromoService {
     @Override
     public Promo parametre(Promo promo) {
         promo.getArticles().forEach(article -> {
-            if (!articleRepository.existsById(article.getArticleId())) throw new RuntimeException("Attention cette article n'existe pas "+article.isEstParametrer());
+            if (!articleRepository.existsById(article.getArticleId())) throw new RuntimeException("Attention cette article n'existe pas "+article.getNomArticle());
+            if (!promoRepository.findActivePromosForArticle(article).contains(article.getArticleId())) throw new RuntimeException("Attention ! une article ne peut faire de plusieurs fois en même temps.");
         });
         if (promo.getDateDebut().isAfter(promo.getDateFin())) throw new RuntimeException("Attention la date de fin doit être après la date de début");
         if (promo.getTauxDeRemise()<0) throw new RuntimeException("Le aut de remise ne doit pas être négative");

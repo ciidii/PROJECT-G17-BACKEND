@@ -8,18 +8,16 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-
-// @ControllerAdvice
+@ControllerAdvice
 public class ApplicationControllerAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({RuntimeException.class})
     public @ResponseBody ErrorDTO exceptionHandler(RuntimeException e){
         Map<String,String> map = new HashMap<>();
-        map.put("error", Arrays.toString(e.getStackTrace()));
+        map.put("error",e.getMessage());
         return new  ErrorDTO(null,map);
     }
 

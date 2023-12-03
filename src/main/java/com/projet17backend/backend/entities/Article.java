@@ -22,9 +22,8 @@ public class Article {
 
     @ManyToOne //Plusieur categorie peut avoir la même catégorie
     private Categorie categorie;
-
-    @OneToMany(mappedBy = "article")
-    private List<LogArticles> logArticles;
+    @ManyToMany(mappedBy = "articles")
+    private List<Promo> promos;
 
 
 

@@ -20,9 +20,13 @@ public class Promo {
     @ManyToOne(fetch = FetchType.EAGER)
     Utilisateur utilisateur;
 
-    @OneToMany
-    List<Article> articles;
-
+    @ManyToMany
+    @JoinTable(
+            name = "promo_article",
+            joinColumns = @JoinColumn(name = "promo_id"),
+            inverseJoinColumns = @JoinColumn(name = "article_id")
+    )
+    private List<Article> articles;
     public Promo(Long id, LocalDate dateDebut, LocalDate dateFin, float tauxDeRemise, Utilisateur utilisateur, List<Article> articles) {
         this.id = id;
         this.dateDebut = dateDebut;
