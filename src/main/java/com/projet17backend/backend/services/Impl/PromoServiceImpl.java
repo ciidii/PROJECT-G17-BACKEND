@@ -1,6 +1,5 @@
 package com.projet17backend.backend.services.Impl;
 
-import com.projet17backend.backend.dto.UtilisateurDTO;
 import com.projet17backend.backend.entities.Promo;
 import com.projet17backend.backend.mapper.MapUtilisateur;
 import com.projet17backend.backend.repos.ArticleRepository;
@@ -45,6 +44,13 @@ public class PromoServiceImpl implements PromoService {
         });
         if (promo.getDateDebut().isAfter(promo.getDateFin())) throw new RuntimeException("Attention la date de fin doit être après la date de début");
         if (promo.getTauxDeRemise()<0) throw new RuntimeException("Le aut de remise ne doit pas être négative");
+        return this.promoRepository.save(promo);
+    }
+
+    @Override
+    public Promo suspendre(Long idPromo) {
+        Promo promo =this.promoRepository.findById(idPromo).orElseThrow();
+        promo.setEtat(!promo.isEtat());
         return this.promoRepository.save(promo);
     }
 }

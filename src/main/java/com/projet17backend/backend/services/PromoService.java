@@ -11,4 +11,6 @@ public interface PromoService {
     List<Promo> lesPromos();
 
     Promo modifier(Promo promo);
+
+    Promo suspendre(Long idPromo);
 }

@@ -27,13 +27,16 @@ public class Promo {
             inverseJoinColumns = @JoinColumn(name = "article_id")
     )
     private List<Article> articles;
-    public Promo(Long id, LocalDate dateDebut, LocalDate dateFin, float tauxDeRemise, Utilisateur utilisateur, List<Article> articles) {
+
+    private boolean etat ;
+    public Promo(Long id, LocalDate dateDebut, LocalDate dateFin, float tauxDeRemise, Utilisateur utilisateur, List<Article> articles, boolean etat) {
         this.id = id;
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
         this.tauxDeRemise = tauxDeRemise;
         this.utilisateur = utilisateur;
         this.articles = articles;
+        this.etat = etat;
     }
 
     public Promo() {
@@ -85,5 +88,12 @@ public class Promo {
 
     public void setArticles(List<Article> articles) {
         this.articles = articles;
+    }
+    public boolean isEtat() {
+        return etat;
+    }
+
+    public void setEtat(boolean etat) {
+        this.etat = etat;
     }
 }

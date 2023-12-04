@@ -26,4 +26,8 @@
         private Promo modifier(@RequestBody Promo promo){
             return this.promoService.modifier(promo);
         }
+        @GetMapping("suspendre/{idPromo}")
+        public Promo suspendre(@PathVariable Long idPromo){
+            return this.promoService.suspendre(idPromo);
+        }
     }
