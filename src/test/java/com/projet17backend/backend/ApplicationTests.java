@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @SpringBootTest
-class BackendG17ApplicationTests {
+class ApplicationTests {
 	@Autowired
 	private ArticleRepository articleRepository;
 	@Autowired
