@@ -1,5 +1,6 @@
 package com.projet17backend.backend.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -7,11 +8,12 @@ public class DetailVente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idDetailVente;
+
     @ManyToOne
-    @JoinColumn(name = "idVente")
+    @JoinColumn(name = "id_vente", referencedColumnName = "idVente")
+    @JsonIgnore
     private Vente vente;
     @ManyToOne
-    @JoinColumn(name = "articleId")
     private Article article;
     private int quantite;
 

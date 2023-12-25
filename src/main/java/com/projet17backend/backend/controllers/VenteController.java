@@ -1,6 +1,7 @@
 package com.projet17backend.backend.controllers;
 
 
+import com.projet17backend.backend.dto.VenteDTO;
 import com.projet17backend.backend.entities.Vente;
 import com.projet17backend.backend.services.VenteService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +19,7 @@ public class VenteController {
     }
 
     @PostMapping("vendre")
-    public Vente vendre(@RequestBody() Vente vente){
-        return this.venteService.ajouter(vente);
+    public VenteDTO vendre(@RequestBody() VenteDTO venteDTO){
+        return this.venteService.ajouter(venteDTO);
     }
 }

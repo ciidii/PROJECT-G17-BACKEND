@@ -10,14 +10,11 @@ public class Vente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idVente;
-
-    private LocalDate dateDeVente;
-
+    private LocalDate dateDeVente=LocalDate.now();
     @ManyToOne
     @JoinColumn(name = "id_utilisateur")
     private Utilisateur utilisateur;
-
-    @OneToMany(mappedBy = "vente", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(mappedBy = "vente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<DetailVente> detailsVente;
 
     public Vente(LocalDate dateDeVente, Utilisateur utilisateur, List<DetailVente> detailsVente) {
@@ -25,6 +22,7 @@ public class Vente {
         this.utilisateur = utilisateur;
         this.detailsVente = detailsVente;
     }
+
     public Vente() {
 
     }
