@@ -25,7 +25,7 @@ public class MapDetailVente {
         detailVente.setIdDetailVente(detailVenteDTO.getIdDetailVente());
         detailVente.setQuantite(detailVenteDTO.getQuantite());
         detailVente.setArticle(article);
-
+        detailVente.setPrixUnitaire(article.getPrix());
         return detailVente;
     }
 
@@ -35,6 +35,7 @@ public class MapDetailVente {
         DetailVenteDTO detailVenteDTO = new DetailVenteDTO();
         detailVenteDTO.setIdDetailVente(detailVente.getIdDetailVente());
         detailVenteDTO.setQuantite(detailVente.getQuantite());
+        detailVenteDTO.setPrixUnitaire(detailVente.getPrixUnitaire());
 
         // Remarque : si tu ne veux pas inclure l'ID de l'article dans le DTO, tu peux l'omettre
         detailVenteDTO.setArticleId(detailVente.getArticle().getArticleId());

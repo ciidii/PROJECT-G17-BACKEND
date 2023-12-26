@@ -16,11 +16,13 @@ public class DetailVente {
     @ManyToOne
     private Article article;
     private int quantite;
+    private float prixUnitaire;
 
-    public DetailVente(Vente vente, Article article, int quantite) {
+    public DetailVente(Vente vente, Article article, int quantite, float prixUnitaire) {
         this.vente = vente;
         this.article = article;
         this.quantite = quantite;
+        this.prixUnitaire = prixUnitaire;
     }
 
     public DetailVente() {
@@ -57,5 +59,13 @@ public class DetailVente {
 
     public void setQuantite(int quantite) {
         this.quantite = quantite;
+    }
+
+    public float getPrixUnitaire() {
+        return prixUnitaire;
+    }
+
+    public void setPrixUnitaire(float prixUnitaire) {
+        this.prixUnitaire = prixUnitaire;
     }
 }

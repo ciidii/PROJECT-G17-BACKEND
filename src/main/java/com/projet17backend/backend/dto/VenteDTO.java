@@ -8,12 +8,15 @@ public class VenteDTO {
     private Long idUtilisateur;
     private LocalDate dateDeVente;
 
+    private float totalVente;
+
     private List<DetailVenteDTO> detailsVente;
 
-    public VenteDTO(Long idVente, Long idUtilisateur, LocalDate dateDeVente, List<DetailVenteDTO> detailsVente) {
+    public VenteDTO(Long idVente, Long idUtilisateur, LocalDate dateDeVente, float totalVente, List<DetailVenteDTO> detailsVente) {
         this.idVente = idVente;
         this.idUtilisateur = idUtilisateur;
         this.dateDeVente = dateDeVente;
+        this.totalVente = totalVente;
         this.detailsVente = detailsVente;
     }
 
@@ -50,5 +53,13 @@ public class VenteDTO {
 
     public void setDateDeVente(LocalDate dateDeVente) {
         this.dateDeVente = dateDeVente;
+    }
+
+    public float getTotalVente() {
+        return totalVente;
+    }
+
+    public void setTotalVente(float totalVente) {
+        this.totalVente = totalVente;
     }
 }

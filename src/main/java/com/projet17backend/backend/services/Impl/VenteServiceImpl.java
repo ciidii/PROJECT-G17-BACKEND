@@ -1,8 +1,11 @@
 package com.projet17backend.backend.services.Impl;
 
 import com.projet17backend.backend.dto.DetailVenteDTO;
+import com.projet17backend.backend.dto.EtatDeCaisseDTO;
+import com.projet17backend.backend.dto.MesVentesDto;
 import com.projet17backend.backend.dto.VenteDTO;
 import com.projet17backend.backend.entities.Article;
+import com.projet17backend.backend.entities.Utilisateur;
 import com.projet17backend.backend.entities.Vente;
 import com.projet17backend.backend.mapper.MapVente;
 import com.projet17backend.backend.repos.ArticleRepository;
@@ -12,6 +15,10 @@ import com.projet17backend.backend.repos.VenteRepository;
 import com.projet17backend.backend.services.VenteService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class VenteServiceImpl implements VenteService {
@@ -52,11 +59,53 @@ public class VenteServiceImpl implements VenteService {
         return this.mapVente.mapVenteToDto(vente);
     }
 
+    @Override
+    public MesVentesDto trouveVenteUtilisateur(Long utilisateurId, LocalDate date) {
+        valideUtilisateur(utilisateurId);
+       Utilisateur utilisateur = this.utilisateurRepository.findByIdUtilisateur(utilisateurId);
+        List<Vente> ventes = getVentes(date, utilisateur);
+        MesVentesDto mesVentesDto = new MesVentesDto();
+        mesVentesDto.setNbVente((long) ventes.size());
+        List<VenteDTO> venteDTOS = new ArrayList<>();
+        ventes.forEach(vente -> {
+            venteDTOS.add(this.mapVente.mapVenteToDto(vente));
+        });
+        mesVentesDto.setVenteDTOS(venteDTOS);
+        return mesVentesDto;
+    }
+
+    @Override
+    public EtatDeCaisseDTO sortirEcartDeCaisse(Long utilisateur, float sommeEnCaisse) {
+        final float[] somme = {0};
+        valideUtilisateur(utilisateur);
+        List<Vente> ventes = this.getVentes(LocalDate.now(),this.utilisateurRepository.findByIdUtilisateur(utilisateur));
+        List<VenteDTO> venteDTOS = new ArrayList<>();
+        ventes.forEach(vente -> {
+            venteDTOS.add(this.mapVente.mapVenteToDto(vente));
+        });
+        venteDTOS.forEach(venteDTO -> {
+            somme[0] = somme[0] + venteDTO.getTotalVente();
+        });
+        EtatDeCaisseDTO etatDeCaisseDTO = new EtatDeCaisseDTO();
+        etatDeCaisseDTO.setEcartDeCaisse(somme[0]-sommeEnCaisse);
+        etatDeCaisseDTO.setSommeAttendus(somme[0]);
+        etatDeCaisseDTO.setSommeDansLaCaisse(sommeEnCaisse);
+        return etatDeCaisseDTO;
+    }
+
     // Méthode pour valider si un utilisateur existe
     private void valideUtilisateur(Long idUtilisateur) {
         if (!utilisateurRepository.existsByIdUtilisateur(idUtilisateur)) {
             throw new RuntimeException("Utilisateur n'existe pas");
         }
+    }
+    private List<Vente> getVentes(LocalDate date, Utilisateur utilisateur) {
+        List<Vente> ventes =  this.venteRepository.findAllByUtilisateurAndDateDeVente(utilisateur, date).orElseThrow();
+        this.venteRepository.findAllByUtilisateurAndDateDeVente(utilisateur, date).isEmpty();
+        if (ventes.isEmpty()){
+            throw new RuntimeException("Vous avez effectué aucun vente le: "+ date);
+        }
+        return ventes;
     }
 
     // Méthode pour traiter chaque détail de vente
@@ -64,6 +113,9 @@ public class VenteServiceImpl implements VenteService {
         // Récupérer l'article depuis la base de données en utilisant l'ID de l'article
         Article article = articleRepository.findById(detailVenteDTO.getArticleId())
                 .orElseThrow(() -> new RuntimeException("Article " + detailVenteDTO.getArticleId() + " n'existe pas"));
+        if (!article.isEstParametrer()){
+            throw new RuntimeException("Les prix de "+article.getNomArticle()+" n'est pas paramétrer");
+        }
 
         // Vérifier si la quantité en stock est suffisante
         if (article.getQttStock() >= detailVenteDTO.getQuantite()) {

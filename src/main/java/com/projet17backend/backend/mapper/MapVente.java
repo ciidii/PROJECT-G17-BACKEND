@@ -50,6 +50,7 @@ public class MapVente {
 
     // Mapper un objet Vente vers un objet VenteDTO
     public VenteDTO mapVenteToDto(Vente vente) {
+        float totalVente = 0;
         // Créer un objet VenteDTO en utilisant les données de Vente
         VenteDTO venteDTO = new VenteDTO();
         venteDTO.setDateDeVente(vente.getDateDeVente());
@@ -60,6 +61,8 @@ public class MapVente {
 
         // Mapper chaque DetailVente de la liste DetailsVente à un DetailVenteDTO et l'ajouter à la liste
         vente.getDetailsVente().forEach(detailVente -> {
+            float totalVente1 = detailVente.getPrixUnitaire() * detailVente.getQuantite() + venteDTO.getTotalVente();
+            venteDTO.setTotalVente(totalVente1);
             detailVenteDTOList.add(mapDetailVente.mapDetailVenteToDto(detailVente));
         });
 
