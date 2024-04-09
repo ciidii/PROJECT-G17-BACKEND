@@ -35,8 +35,7 @@ public class SecuriteDeConfiguration {
                                 authorize -> authorize
                                         .requestMatchers(new AntPathRequestMatcher("/utilisateurs/connexion"))
                                         .permitAll()
-                                        .anyRequest()
-                                        .permitAll()
+                                        .anyRequest().authenticated()
                         )
                         .sessionManagement(httpSecuritySessionManagementConfigurer ->
                                 httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

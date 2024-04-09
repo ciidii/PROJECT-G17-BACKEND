@@ -19,7 +19,7 @@ public class CategorieController {
         this.categorieService = categorieService;
     }
 
-    @GetMapping()
+    @GetMapping("/tous")
     public List<Categorie> categories(){
         return this.categorieService.categories();
     }

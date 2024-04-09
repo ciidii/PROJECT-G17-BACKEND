@@ -30,5 +30,4 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     @Query("select a from Article a order by a.nomArticle ASC, a.prix DESC")
     List<Article> trierArticlesNomsPrix();
-
 }

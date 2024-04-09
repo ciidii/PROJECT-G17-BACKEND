@@ -41,4 +41,5 @@ public class Configuration {
         return String.format("G17GB%04d", randomNumber);
     }
 
+
 }

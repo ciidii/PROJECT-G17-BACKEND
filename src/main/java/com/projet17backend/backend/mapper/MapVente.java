@@ -1,6 +1,7 @@
 package com.projet17backend.backend.mapper;
 
 import com.projet17backend.backend.dto.DetailVenteDTO;
+import com.projet17backend.backend.dto.InformationFinancierDTO;
 import com.projet17backend.backend.dto.VenteDTO;
 import com.projet17backend.backend.entities.DetailVente;
 import com.projet17backend.backend.entities.Utilisateur;
@@ -69,5 +70,9 @@ public class MapVente {
         venteDTO.setDetailsVente(detailVenteDTOList);
 
         return venteDTO;
+    }
+    public InformationFinancierDTO mapVentesToInformationFinancierDto(Vente vente){
+        InformationFinancierDTO informationFinancierDTO = new InformationFinancierDTO();
+        return null;
     }
 }

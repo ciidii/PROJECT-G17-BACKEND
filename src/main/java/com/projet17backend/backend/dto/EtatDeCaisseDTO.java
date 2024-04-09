@@ -5,11 +5,8 @@ public class EtatDeCaisseDTO {
     private float sommeDansLaCaisse;
     private float sommeAttendus;
 
-    public EtatDeCaisseDTO(float ecartDeCaisse, float sommeDansLaCaisse, float sommeAttendus) {
-        this.ecartDeCaisse = ecartDeCaisse;
-        this.sommeDansLaCaisse = sommeDansLaCaisse;
-        this.sommeAttendus = sommeAttendus;
-    }
+    private boolean validate;
+    private UtilisateurDTO utilisateur;
 
     public EtatDeCaisseDTO() {
     }
@@ -36,5 +33,21 @@ public class EtatDeCaisseDTO {
 
     public void setSommeAttendus(float sommeAttendus) {
         this.sommeAttendus = sommeAttendus;
+    }
+
+    public boolean isValidate() {
+        return validate;
+    }
+
+    public void setValidate(boolean validate) {
+        this.validate = validate;
+    }
+
+    public UtilisateurDTO getUtilisateur() {
+        return utilisateur;
+    }
+
+    public void setUtilisateur(UtilisateurDTO utilisateur) {
+        this.utilisateur = utilisateur;
     }
 }

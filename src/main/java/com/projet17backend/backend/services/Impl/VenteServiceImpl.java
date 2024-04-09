@@ -1,17 +1,13 @@
 package com.projet17backend.backend.services.Impl;
 
-import com.projet17backend.backend.dto.DetailVenteDTO;
-import com.projet17backend.backend.dto.EtatDeCaisseDTO;
-import com.projet17backend.backend.dto.MesVentesDto;
-import com.projet17backend.backend.dto.VenteDTO;
+import com.projet17backend.backend.dto.*;
 import com.projet17backend.backend.entities.Article;
 import com.projet17backend.backend.entities.Utilisateur;
 import com.projet17backend.backend.entities.Vente;
+import com.projet17backend.backend.mapper.MapEtatDeCaisse;
 import com.projet17backend.backend.mapper.MapVente;
-import com.projet17backend.backend.repos.ArticleRepository;
-import com.projet17backend.backend.repos.DetailVenteRepository;
-import com.projet17backend.backend.repos.UtilisateurRepository;
-import com.projet17backend.backend.repos.VenteRepository;
+import com.projet17backend.backend.repos.*;
+import com.projet17backend.backend.services.EtatDeCaisseService;
 import com.projet17backend.backend.services.VenteService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,15 +24,21 @@ public class VenteServiceImpl implements VenteService {
     private final VenteRepository venteRepository;
     private final DetailVenteRepository detailVenteRepository;
     private final MapVente mapVente;
+    private final EtatDeCaisseService etatDeCaisseService;
+    private final EtatDeCaisseRepository etatDeCaisseRepository;
+    private final MapEtatDeCaisse mapEtatDeCaisse;
 
     public VenteServiceImpl(ArticleRepository articleRepository, UtilisateurRepository utilisateurRepository,
                             VenteRepository venteRepository, DetailVenteRepository detailVenteRepository,
-                            MapVente mapVente) {
+                            MapVente mapVente, EtatDeCaisseService etatDeCaisseService, EtatDeCaisseRepository etatDeCaisseRepository, MapEtatDeCaisse mapEtatDeCaisse) {
         this.articleRepository = articleRepository;
         this.utilisateurRepository = utilisateurRepository;
         this.venteRepository = venteRepository;
         this.detailVenteRepository = detailVenteRepository;
         this.mapVente = mapVente;
+        this.etatDeCaisseService = etatDeCaisseService;
+        this.etatDeCaisseRepository = etatDeCaisseRepository;
+        this.mapEtatDeCaisse = mapEtatDeCaisse;
     }
 
     // Méthode pour ajouter une nouvelle vente
@@ -62,7 +64,7 @@ public class VenteServiceImpl implements VenteService {
     @Override
     public MesVentesDto trouveVenteUtilisateur(Long utilisateurId, LocalDate date) {
         valideUtilisateur(utilisateurId);
-       Utilisateur utilisateur = this.utilisateurRepository.findByIdUtilisateur(utilisateurId);
+        Utilisateur utilisateur = this.utilisateurRepository.findByIdUtilisateur(utilisateurId);
         List<Vente> ventes = getVentes(date, utilisateur);
         MesVentesDto mesVentesDto = new MesVentesDto();
         mesVentesDto.setNbVente((long) ventes.size());
@@ -75,10 +77,10 @@ public class VenteServiceImpl implements VenteService {
     }
 
     @Override
-    public EtatDeCaisseDTO sortirEcartDeCaisse(Long utilisateur, float sommeEnCaisse) {
+    public EtatDeCaisseDTO sortirEcartDeCaisse(Long utilisateur, float sommeEnCaisse, Boolean envoyer) {
         final float[] somme = {0};
         valideUtilisateur(utilisateur);
-        List<Vente> ventes = this.getVentes(LocalDate.now(),this.utilisateurRepository.findByIdUtilisateur(utilisateur));
+        List<Vente> ventes = this.getVentes(LocalDate.now(), this.utilisateurRepository.findByIdUtilisateur(utilisateur));
         List<VenteDTO> venteDTOS = new ArrayList<>();
         ventes.forEach(vente -> {
             venteDTOS.add(this.mapVente.mapVenteToDto(vente));
@@ -87,10 +89,46 @@ public class VenteServiceImpl implements VenteService {
             somme[0] = somme[0] + venteDTO.getTotalVente();
         });
         EtatDeCaisseDTO etatDeCaisseDTO = new EtatDeCaisseDTO();
-        etatDeCaisseDTO.setEcartDeCaisse(somme[0]-sommeEnCaisse);
+        etatDeCaisseDTO.setEcartDeCaisse(somme[0] - sommeEnCaisse);
         etatDeCaisseDTO.setSommeAttendus(somme[0]);
         etatDeCaisseDTO.setSommeDansLaCaisse(sommeEnCaisse);
+        if (envoyer) {
+            return this.etatDeCaisseService.ajouter(etatDeCaisseDTO);
+        }
         return etatDeCaisseDTO;
+    }
+
+    @Override
+    public EtatDeCaisseDTO validateEtatDeCaisse(Long adminOrFinancier, Long etatDeCaisse, Boolean validate) {
+        valideUtilisateur(adminOrFinancier);
+        return this.etatDeCaisseService.validateEtatDeCaisse(adminOrFinancier, etatDeCaisse, validate);
+    }
+
+    @Override
+    public List<EtatDeCaisseDTO> afficherTous() {
+        List<EtatDeCaisseDTO> etatDeCaisseDTOS = new ArrayList<>();
+        this.etatDeCaisseRepository.findAll().forEach(etatDeCaisse -> {
+            etatDeCaisseDTOS.add(this.mapEtatDeCaisse.mapEtatDeCaisseToDTO(etatDeCaisse));
+        });
+        return etatDeCaisseDTOS;
+    }
+
+    @Override
+    public InformationFinancierDTO suivreInformationFinancier(Long idFinancier, LocalDate dateUtilisateur) {
+        valideUtilisateur(idFinancier);
+        List<Vente> ventes = this.venteRepository.findAllByDateDeVente(dateUtilisateur).orElseThrow();
+        InformationFinancierDTO informationFinancierDTO = new InformationFinancierDTO();
+        informationFinancierDTO.setDate(dateUtilisateur);
+        informationFinancierDTO.setNombreVentes(ventes.size());
+        ventes.forEach(vente -> {
+            vente.getDetailsVente().forEach(detailVente -> {
+                int nombreDArticle = informationFinancierDTO.getNombreDArticle() + detailVente.getQuantite();
+                informationFinancierDTO.setNombreDArticle(nombreDArticle);
+                float totalVente = informationFinancierDTO.getTotalVente() + detailVente.getPrixUnitaire() * detailVente.getQuantite();
+                informationFinancierDTO.setTotalVente(totalVente);
+            });
+        });
+        return informationFinancierDTO;
     }
 
     // Méthode pour valider si un utilisateur existe
@@ -99,11 +137,12 @@ public class VenteServiceImpl implements VenteService {
             throw new RuntimeException("Utilisateur n'existe pas");
         }
     }
+
     private List<Vente> getVentes(LocalDate date, Utilisateur utilisateur) {
-        List<Vente> ventes =  this.venteRepository.findAllByUtilisateurAndDateDeVente(utilisateur, date).orElseThrow();
+        List<Vente> ventes = this.venteRepository.findAllByUtilisateurAndDateDeVente(utilisateur, date).orElseThrow();
         this.venteRepository.findAllByUtilisateurAndDateDeVente(utilisateur, date).isEmpty();
-        if (ventes.isEmpty()){
-            throw new RuntimeException("Vous avez effectué aucun vente le: "+ date);
+        if (ventes.isEmpty()) {
+            throw new RuntimeException("Vous avez effectué aucun vente le: " + date);
         }
         return ventes;
     }
@@ -113,8 +152,8 @@ public class VenteServiceImpl implements VenteService {
         // Récupérer l'article depuis la base de données en utilisant l'ID de l'article
         Article article = articleRepository.findById(detailVenteDTO.getArticleId())
                 .orElseThrow(() -> new RuntimeException("Article " + detailVenteDTO.getArticleId() + " n'existe pas"));
-        if (!article.isEstParametrer()){
-            throw new RuntimeException("Les prix de "+article.getNomArticle()+" n'est pas paramétrer");
+        if (!article.isEstParametrer()) {
+            throw new RuntimeException("Les prix de " + article.getNomArticle() + " n'est pas paramétrer");
         }
 
         // Vérifier si la quantité en stock est suffisante

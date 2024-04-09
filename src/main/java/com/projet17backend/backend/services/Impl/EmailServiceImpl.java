@@ -6,6 +6,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Service;
+import org.springframework.mail.SimpleMailMessage;
+import com.projet17backend.backend.services.EmailService;
+import org.springframework.beans.factory.annotation.Value;
+
 
 @Service
 public class EmailServiceImpl implements EmailService {

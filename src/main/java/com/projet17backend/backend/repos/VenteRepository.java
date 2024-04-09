@@ -9,6 +9,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-public interface VenteRepository extends CrudRepository<Vente,Long> {
+public interface VenteRepository extends CrudRepository<Vente, Long> {
     public Optional<List<Vente>> findAllByUtilisateurAndDateDeVente(Utilisateur utilisateur, LocalDate date);
+
+    public Optional<List<Vente>> findAllByDateDeVente(LocalDate dateDeVente);
 }
