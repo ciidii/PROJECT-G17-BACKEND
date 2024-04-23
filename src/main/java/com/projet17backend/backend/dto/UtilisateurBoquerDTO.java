@@ -1,5 +1,7 @@
 package com.projet17backend.backend.dto;
 
+import com.projet17backend.backend.entities.Utilisateur;
+
 import java.time.LocalDateTime;
 
 public class UtilisateurBoquerDTO {
@@ -17,6 +19,14 @@ public class UtilisateurBoquerDTO {
         this.email = email;
         this.identifiant = identifiant;
         this.dateDeLevee = dateDeLevee;
+    }
+    public UtilisateurBoquerDTO(UtilisateurDTO  utilisateurDTO, LocalDateTime dateDeLevee){
+        this.nom = utilisateurDTO.getNom();
+        this.prenom = utilisateurDTO.getPrenom();
+        this.numeroTel = utilisateurDTO.getNumeroTel();
+        this.email = utilisateurDTO.getEmail();
+        this.identifiant = utilisateurDTO.getIdentifiant();
+        this.setDateDeLevee(dateDeLevee);
     }
 
     public UtilisateurBoquerDTO() {

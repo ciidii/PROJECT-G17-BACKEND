@@ -15,8 +15,10 @@ public class Article {
     private String descriptionArticle;
     private Long qttStock;
     private boolean estVendable;
-    private boolean estParametrer=false;
+    private boolean estParametrer = false;
     private float prix;
+    @ElementCollection
+    private List<String> images;
 
     private Date dateCreation = new Date();
 
@@ -24,7 +26,6 @@ public class Article {
     private Categorie categorie;
     @ManyToMany(mappedBy = "articles")
     private List<Promo> promos;
-
 
 
     public Article(String nomArticle, String descriptionArticle, Long qttStock, boolean estVendable, boolean estParametrer, float prix, Date dateCreation) {
@@ -36,9 +37,11 @@ public class Article {
         this.prix = prix;
         this.dateCreation = dateCreation;
     }
+
     public Article() {
         super();
     }
+
     public boolean isEstParametrer() {
         return estParametrer;
     }
@@ -106,8 +109,17 @@ public class Article {
     public Categorie getCategorie() {
         return categorie;
     }
+
     public void setCategorie(Categorie categorie) {
         this.categorie = categorie;
+    }
+
+    public List<String> getImages() {
+        return images;
+    }
+
+    public void setImages(List<String> images) {
+        this.images = images;
     }
 
     @Override
@@ -118,9 +130,12 @@ public class Article {
                 ", descriptionArticle='" + descriptionArticle + '\'' +
                 ", qttStock=" + qttStock +
                 ", estVendable=" + estVendable +
+                ", estParametrer=" + estParametrer +
                 ", prix=" + prix +
+                ", images=" + images +
                 ", dateCreation=" + dateCreation +
                 ", categorie=" + categorie +
+                ", promos=" + promos +
                 '}';
     }
 }

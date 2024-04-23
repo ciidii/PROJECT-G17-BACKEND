@@ -35,7 +35,22 @@ public class SecuriteDeConfiguration {
                                 authorize -> authorize
                                         .requestMatchers(new AntPathRequestMatcher("/utilisateurs/connexion"))
                                         .permitAll()
-                                        .anyRequest().authenticated()
+                                        .requestMatchers(
+                                                new AntPathRequestMatcher("/api/v1/auth/**"),
+                                                new AntPathRequestMatcher("/v2/api-docs"),
+                                                new AntPathRequestMatcher("/v3/api-docs"),
+                                                new AntPathRequestMatcher("/v3/api-docs/**"),
+                                                new AntPathRequestMatcher("/swagger-resources"),
+                                                new AntPathRequestMatcher("/swagger-resources/**"),
+                                                new AntPathRequestMatcher("/configuration/ui"),
+                                                new AntPathRequestMatcher("/configuration/security"),
+                                                new AntPathRequestMatcher("/swagger-ui/**"),
+                                                new AntPathRequestMatcher("/webjars/**"),
+                                                new AntPathRequestMatcher("/swagger-ui.html")
+                                        )
+                                        .permitAll()
+                                        .anyRequest()
+                                        .authenticated()
                         )
                         .sessionManagement(httpSecuritySessionManagementConfigurer ->
                                 httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

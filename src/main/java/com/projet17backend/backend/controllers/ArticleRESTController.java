@@ -1,17 +1,19 @@
 
 package com.projet17backend.backend.controllers;
 
+import com.projet17backend.backend.dto.AjoutArticlesDTO;
 import com.projet17backend.backend.entities.Article;
 import com.projet17backend.backend.services.ArticleService;
 import jakarta.validation.Valid;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
-@CrossOrigin("http://localhost:4200")
+@RequestMapping("/articles")
 public class ArticleRESTController {
 
     private final ArticleService articleService;
@@ -30,9 +32,18 @@ public class ArticleRESTController {
         return articleService.getArticle(id);
     }
 
-    @RequestMapping(value = "/create/{idUtilisateur}", method = RequestMethod.POST)
-    public Article createArticle(@Valid @RequestBody Article article, @PathVariable("idUtilisateur") Long idUtilisateur) {
-        return articleService.saveArticle(article,idUtilisateur);
+
+    @PostMapping(value = "/create/{idUtilisateur}")
+    public Article createArticle(
+            @PathVariable("idUtilisateur") Long idUtilisateur,
+            @RequestParam("nomArticle") String nomArticle,
+            @RequestParam("descriptionArticle") String descriptionArticle,
+            @RequestParam("qttStock") Long qttStock,
+            @RequestParam("idCategorie") Long idCategorie,
+            @RequestPart("images") List<MultipartFile> images
+    ) {
+        AjoutArticlesDTO article = new AjoutArticlesDTO(nomArticle, descriptionArticle, qttStock, idCategorie);
+        return articleService.saveArticle(article, idUtilisateur, images);
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
@@ -55,4 +66,15 @@ public class ArticleRESTController {
         return this.articleService.parametrerPrixArticle(articleID, idFinancier, prix);
     }
 
+    @PostMapping(value = "/add-image")
+    public ResponseEntity<?> uploadImage(
+
+            @RequestParam("article-id") Long articleId,
+            @RequestParam("user-id") Long userID,
+            @RequestPart("files") List<MultipartFile> files
+
+    ) {
+        this.articleService.uploadImage(articleId, userID, files);
+        return ResponseEntity.accepted().build();
+    }
 }

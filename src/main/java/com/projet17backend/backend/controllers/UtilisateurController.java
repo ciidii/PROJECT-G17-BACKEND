@@ -1,9 +1,6 @@
 package com.projet17backend.backend.controllers;
 
-import com.projet17backend.backend.dto.ChangePasswordDTO;
-import com.projet17backend.backend.dto.InfoConnexionDTO;
-import com.projet17backend.backend.dto.UtilisateurBoquerDTO;
-import com.projet17backend.backend.dto.UtilisateurDTO;
+import com.projet17backend.backend.dto.*;
 import com.projet17backend.backend.security.JwtService;
 import com.projet17backend.backend.services.Impl.UtilisateurServiceImpl;
 import com.projet17backend.backend.services.UtilisateurService;
@@ -88,9 +85,8 @@ public class UtilisateurController {
         return null;
     }
 
-    @GetMapping("bloquer/{idAdmin}/{idUtilisateur}/{dateDeLeveeAutomatique}")
-    public UtilisateurBoquerDTO bloquerUtilisateur(@PathVariable Long idAdmin, @PathVariable Long idUtilisateur, @PathVariable LocalDateTime dateDeLeveeAutomatique) {
-        return this.utilisateurService.bloquerUtilisateur(idAdmin, idUtilisateur, dateDeLeveeAutomatique);
-
+    @PutMapping("/bloquer")
+    public UtilisateurBoquerDTO bloquerUtilisateur(@RequestBody InfosPourBloquerUtilisateur infosPourBloquerUtilisateur) {
+        return this.utilisateurService.bloquerUtilisateur(infosPourBloquerUtilisateur);
     }
 }

@@ -3,6 +3,7 @@ package com.projet17backend.backend.security;
 import com.projet17backend.backend.entities.Utilisateur;
 import com.projet17backend.backend.services.UtilisateurService;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -61,8 +62,12 @@ public class JwtService {
     }
 
     public boolean isExperired(String token) {
-        Date expirationDate = this.getClaims(token, Claims::getExpiration);
-        return expirationDate.before(new Date());
+        try {
+            Date expirationDate = this.getClaims(token, Claims::getExpiration);
+            return expirationDate.before(new Date());
+        } catch (ExpiredJwtException e) {
+            throw new RuntimeException("Le votre session a expiré veillez vous reconnectez");
+        }
     }
 
     private <T> T getClaims(String token, Function<Claims, T> fonction) {

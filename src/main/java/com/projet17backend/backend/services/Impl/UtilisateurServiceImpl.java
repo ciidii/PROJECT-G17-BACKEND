@@ -1,6 +1,7 @@
 package com.projet17backend.backend.services.Impl;
 
 import com.projet17backend.backend.dto.ChangePasswordDTO;
+import com.projet17backend.backend.dto.InfosPourBloquerUtilisateur;
 import com.projet17backend.backend.dto.UtilisateurBoquerDTO;
 import com.projet17backend.backend.dto.UtilisateurDTO;
 import com.projet17backend.backend.entities.Confirmation;
@@ -156,18 +157,18 @@ public class UtilisateurServiceImpl implements com.projet17backend.backend.servi
     }
 
     @Override
-    public UtilisateurBoquerDTO bloquerUtilisateur(Long idAdmin, Long idUtilisateur, LocalDateTime dateDeLeveeAutomatique) {
-        Utilisateur utilisateur = getUtilisateur(idUtilisateur);
-        Utilisateur admin = getUtilisateur(idAdmin);
-        if (admin.getRoles().equals(ROLE.ROLE_ADMIN.toString())) {
+    public UtilisateurBoquerDTO bloquerUtilisateur(InfosPourBloquerUtilisateur infosPourBloquerUtilisateur) {
+        Utilisateur utilisateur = getUtilisateur(infosPourBloquerUtilisateur.getIdUtilisateur());
+        Utilisateur admin = getUtilisateur(infosPourBloquerUtilisateur.getIdAdmin());
+        if (admin.getRoles().contains(ROLE.ROLE_ADMIN.toString())) {
             bloquerUtilisateur(utilisateur);
-            long delay = LocalDateTime.now().until(dateDeLeveeAutomatique, ChronoUnit.MILLIS);
+            long delay = LocalDateTime.now().until(infosPourBloquerUtilisateur.getDateDeLeveeAutomatique(), ChronoUnit.MILLIS);
 
             if (delay > 0) {
                 // Planifier la tâche pour la levée automatique du blocage
                 scheduler.schedule(() -> deBloquerUtilisateur(utilisateur), delay, TimeUnit.MILLISECONDS);
             }
-            return getUtilisateurBoquerDTO(dateDeLeveeAutomatique, utilisateur);
+            return getUtilisateurBoquerDTO(infosPourBloquerUtilisateur.getDateDeLeveeAutomatique(), utilisateur);
         }
         throw new RuntimeException("Vous n'êtes pas autorisé à effectuer cette opération");
     }
@@ -187,15 +188,8 @@ public class UtilisateurServiceImpl implements com.projet17backend.backend.servi
         return this.mapUtilisateur.mapUtilisateurToDto(utilisateur);
     }
 
-    private static UtilisateurBoquerDTO getUtilisateurBoquerDTO(LocalDateTime dateDeLeveeAutomatique, Utilisateur utilisateur) {
-        UtilisateurBoquerDTO utilisateurBoquerDTO = new UtilisateurBoquerDTO();
-        utilisateurBoquerDTO.setDateDeLevee(dateDeLeveeAutomatique);
-        utilisateurBoquerDTO.setEmail(utilisateurBoquerDTO.getEmail());
-        utilisateurBoquerDTO.setNom(utilisateurBoquerDTO.getNom());
-        utilisateurBoquerDTO.setNumeroTel(utilisateurBoquerDTO.getNumeroTel());
-        utilisateurBoquerDTO.setPrenom(utilisateurBoquerDTO.getPrenom());
-        utilisateurBoquerDTO.setIdentifiant(utilisateur.getIdentifiant());
-        return utilisateurBoquerDTO;
+    private  UtilisateurBoquerDTO getUtilisateurBoquerDTO(LocalDateTime dateDeLeveeAutomatique, Utilisateur utilisateur) {
+        return new UtilisateurBoquerDTO(this.mapUtilisateur.mapUtilisateurToDto(utilisateur),dateDeLeveeAutomatique);
     }
 
     private void bloquerUtilisateur(Utilisateur utilisateur) {

@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 @SpringBootApplication
-@EnableScheduling
 public class Application implements CommandLineRunner {
 
     private final RepositoryRestConfiguration repositoryRestConfiguration;
